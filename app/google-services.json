@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "200406958930",
+    "firebase_url": "https://hands-show.firebaseio.com",
+    "project_id": "hands-show",
+    "storage_bucket": "hands-show.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:200406958930:android:0daec613786969dcc8b08b",
+        "android_client_info": {
+          "package_name": "com.example.cameraxapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "200406958930-83ejvac75i0bmpvqchm5fqpv9n3kmhh0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgM3O0kMyoPjwfjYqyvvS1iiuqzBNAFf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "200406958930-83ejvac75i0bmpvqchm5fqpv9n3kmhh0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:200406958930:android:62e544a57dd5ca7bc8b08b",
+        "android_client_info": {
+          "package_name": "com.example.signz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "200406958930-83ejvac75i0bmpvqchm5fqpv9n3kmhh0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgM3O0kMyoPjwfjYqyvvS1iiuqzBNAFf4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "200406958930-83ejvac75i0bmpvqchm5fqpv9n3kmhh0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
