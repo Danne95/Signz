@@ -13,11 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
+
         <activity android:name=".SupporterActivity"></activity>
-=======
+
         <activity android:name=".LearnLanguage"></activity>
->>>>>>> dd6d90b88a563e893e5b21d306743049a0ec4343
+
         <activity android:name=".PicToTranslateActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
