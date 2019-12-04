@@ -15,10 +15,8 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".SupporterActivity"></activity>
-
         <activity android:name=".LearnLanguage"></activity>
-
-        <activity android:name=".PicToTranslateActivity" />
+        <activity android:name=".PicToTranslateActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
