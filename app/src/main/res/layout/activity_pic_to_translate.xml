@@ -8,16 +8,6 @@
     tools:context="com.example.hands_showprototype.PicToTranslateActivity">
 
     <ImageView
-        android:id="@+id/back"
-        android:layout_width="77dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="0dp"
-        android:background="#00E60707"
-        android:clickable="false"
-        android:onClick="BackToMain"
-        app:srcCompat="@android:drawable/arrow_up_float" />
-
-    <ImageView
         android:id="@+id/imageView"
         android:layout_width="250dp"
         android:layout_height="234dp"

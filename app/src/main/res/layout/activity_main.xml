@@ -13,6 +13,14 @@
         android:id="@+id/PicToTranslate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:onClick="GoToTranslate"
         android:text="Sign Translation" />
+
+    <Button
+        android:id="@+id/LearnLang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="GoToLearn"
+        android:text="Learn Sign Language" />
 </LinearLayout>
