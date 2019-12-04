@@ -115,13 +115,9 @@ public class PicToTranslateActivity extends AppCompatActivity {
                 });
 
     }
-    public void BackToMain(View view){
-        Intent Ret = new Intent(this,MainActivity.class);
-        startActivity(Ret);
-    }
     private void ErrorMsg()
     {
-        Toast txt = Toast.makeText(getApplicationContext(), "Opps, I didn't catch it :(", Toast.LENGTH_SHORT);
+        Toast txt = Toast.makeText(getApplicationContext(), "Oops, I didn't catch it :(", Toast.LENGTH_SHORT);
         txt.show();
     }
 

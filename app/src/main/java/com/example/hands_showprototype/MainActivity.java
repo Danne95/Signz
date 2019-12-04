@@ -20,6 +20,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(SignTranslate);
     }
 
+    public void GoToLearn(View view){
+        Intent LearnLang = new Intent(this,LearnLanguage.class);
+        startActivity(LearnLang);
+    }
    /* private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 90);
