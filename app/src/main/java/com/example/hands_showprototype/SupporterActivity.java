@@ -12,7 +12,7 @@ import android.widget.Toast;
 public class SupporterActivity extends AppCompatActivity {
     private GridView letters;
     private String[] lettersNames={"H","E","L","O","W","R","D","Delete","Space"};
-    private int[] letterNameByImage={R.drawable.H,R.drawable.E,R.drawable.L,R.drawable.O,R.drawable.W,R.drawable.R,R.drawable.D};
+    private int[] letterNameByImage={R.drawable.h,R.drawable.e,R.drawable.l,R.drawable.o,R.drawable.w,R.drawable.r,R.drawable.d};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
