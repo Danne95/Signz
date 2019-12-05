@@ -18,7 +18,7 @@ public class SupporterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supporter);
 
-        letters = findViewById(R.id.gridview);
+        letters = findViewById(R.id.gridView);
 
         MainAdapter adapter = new MainAdapter(SupporterActivity.this,lettersNames,letterNameByImage);
         letters.setAdapter(adapter);
