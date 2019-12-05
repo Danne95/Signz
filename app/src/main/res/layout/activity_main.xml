@@ -10,6 +10,27 @@
     >
 
     <Button
+        android:id="@+id/SignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="GoToSignUp"
+        android:text="Sign Up" />
+
+    <Button
+        android:id="@+id/SignIn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="GoToSignIn"
+        android:text="Sign In" />
+
+    <Button
+        android:id="@+id/SignOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="SignOut"
+        android:text="Sign Out" />
+
+    <Button
         android:id="@+id/PicToTranslate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,4 +44,5 @@
         android:layout_height="wrap_content"
         android:onClick="GoToLearn"
         android:text="Learn Sign Language" />
+
 </LinearLayout>
