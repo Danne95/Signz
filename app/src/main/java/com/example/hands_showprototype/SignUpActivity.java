@@ -60,6 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         mAuth = FirebaseAuth.getInstance();
+        db= FirebaseFirestore.getInstance();
     }
 
     public void SignUp(View view) {
@@ -80,9 +81,8 @@ public class SignUpActivity extends AppCompatActivity {
             mAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
-                    Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Account created", Toast.LENGTH_LONG).show();
                     if(mAuth.getCurrentUser()!=null){
-                        db= FirebaseFirestore.getInstance();
                         if(db!=null){
                             // Create a new user with a first, middle, and last name
                             Map<String, Object> nuser = new HashMap<>();
@@ -93,11 +93,11 @@ public class SignUpActivity extends AppCompatActivity {
                             nuser.put("pendingsupport", ((CheckBox)findViewById(R.id.supporterCheckBox)).isChecked());
                             // Add a new document with a generated ID
                             db.collection("users")
-                                    .add(nuser)
-                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    .document(mAuth.getCurrentUser().getUid()).set(nuser)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
-                                        public void onSuccess(DocumentReference documentReference) {
-                                            Toast.makeText(getApplicationContext(), "DocumentSnapshot added with ID: " + documentReference.getId(),Toast.LENGTH_LONG).show();
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(getApplicationContext(), "DocumentSnapshot added with ID: " + mAuth.getCurrentUser().getUid(),Toast.LENGTH_SHORT).show();
                                             finish();
                                         }
                                     })
@@ -105,6 +105,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
                                             Toast.makeText(getApplicationContext(), "Error adding document"+e, Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), "Deleting account", Toast.LENGTH_LONG).show();
                                             mAuth.getCurrentUser().delete();
                                         }
                                     });
