@@ -63,7 +63,7 @@ public class SignInActivity extends AppCompatActivity {
         if (user != null) {
             finish();
         } else {
-            
+
         }
     }
 }
