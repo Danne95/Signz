@@ -12,14 +12,13 @@ public class MainAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
     private String[] lettersNames;
-    private int[] letterNameByImage;
+    private int[] numberImages;
 
-    public MainAdapter(Context c, String[] lettersNames,int[] letterNameByImage)
+    public MainAdapter(Context c, String[] lettersNames, int[] numberImages)
     {
-        this.context=c;
+        context=c;
         this.lettersNames=lettersNames;
-        this.letterNameByImage=letterNameByImage;
-
+        this.numberImages=numberImages;
     }
     @Override
     public int getCount() {
@@ -42,10 +41,11 @@ public class MainAdapter extends BaseAdapter {
             inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if(view==null)
             view=inflater.inflate(R.layout.row_item,null);
+
         ImageView imageView=view.findViewById(R.id.image_View);
         TextView textView=view.findViewById(R.id.text_view);
 
-        imageView.setImageResource(letterNameByImage[i]);
+        imageView.setImageResource(numberImages[i]-1);
         textView.setText(lettersNames[i]);
         return view;
     }

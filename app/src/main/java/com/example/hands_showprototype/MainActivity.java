@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void GoToLearn(View view){
-        Intent LearnLang = new Intent(this,LearnLanguage.class);
+        Intent LearnLang = new Intent(this,SupporterActivity.class);
         startActivity(LearnLang);
     }
 }
