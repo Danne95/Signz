@@ -22,7 +22,7 @@ public class MainAdapter extends BaseAdapter {
     }
     @Override
     public int getCount() {
-        return this.lettersNames.length;
+        return this.numberImages.length;
     }
 
     @Override
@@ -37,6 +37,7 @@ public class MainAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+
         if(inflater==null)
             inflater=(LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if(view==null)
@@ -45,7 +46,7 @@ public class MainAdapter extends BaseAdapter {
         ImageView imageView=view.findViewById(R.id.image_View);
         TextView textView=view.findViewById(R.id.text_view);
 
-        imageView.setImageResource(numberImages[i]-1);
+        imageView.setImageResource(numberImages[i]);
         textView.setText(lettersNames[i]);
         return view;
     }
