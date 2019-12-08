@@ -42,11 +42,12 @@
         android:layout_height="wrap_content"
         android:onClick="GoToSupportersStats"
         android:text="Supporters Stats"
-        tools:text="Sactive" />
+        tools:text="Supporters Stats" />
 
     <Button
         android:id="@+id/Uactive"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Users activities" />
+        android:onClick="GoToUsersStats"
+        android:text="Users Stats" />
 </LinearLayout>

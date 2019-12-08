@@ -10,6 +10,8 @@ import com.example.hands_showprototype.AdminPlus.DeleteUserActivity;
 import com.example.hands_showprototype.AdminPlus.SQActivity;
 import com.example.hands_showprototype.AdminPlus.DemoteActivity;
 import com.example.hands_showprototype.AdminPlus.SupportersStatsActivity;
+import com.example.hands_showprototype.AdminPlus.UsersStatsActivity;
+
 
 public class AdminActivity extends AppCompatActivity {
 
@@ -39,6 +41,10 @@ public class AdminActivity extends AppCompatActivity {
         startActivity(SupportersStats);
     }
 
+    public void GoToUsersStats(View view){
+        Intent UsersStats = new Intent(this, UsersStatsActivity.class);
+        startActivity(UsersStats);
+    }
 
 }
 
