@@ -9,6 +9,7 @@ import android.view.View;
 import com.example.hands_showprototype.AdminPlus.DeleteUserActivity;
 import com.example.hands_showprototype.AdminPlus.SQActivity;
 import com.example.hands_showprototype.AdminPlus.DemoteActivity;
+import com.example.hands_showprototype.AdminPlus.SupportersStatsActivity;
 
 public class AdminActivity extends AppCompatActivity {
 
@@ -32,6 +33,13 @@ public class AdminActivity extends AppCompatActivity {
         Intent Demote = new Intent(this, DemoteActivity.class);
         startActivity(Demote);
     }
+
+    public void GoToSupportersStats(View view){
+        Intent SupportersStats = new Intent(this, SupportersStatsActivity.class);
+        startActivity(SupportersStats);
+    }
+
+
 }
 
 

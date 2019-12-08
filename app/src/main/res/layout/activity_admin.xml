@@ -40,7 +40,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Supporter Activities"
+        android:onClick="GoToSupportersStats"
+        android:text="Supporters Stats"
         tools:text="Sactive" />
 
     <Button
