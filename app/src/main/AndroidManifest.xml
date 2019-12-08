@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdminPlus.DeleteUserActivity"></activity>
+        <activity android:name=".AdminPlus.DemoteActivity"></activity>
+        <activity android:name=".AdminPlus.DeleteUserActivity" />
         <activity android:name=".AdminPlus.SQActivity" />
         <activity android:name=".AdminActivity" />
         <activity android:name=".ShowPicture" />

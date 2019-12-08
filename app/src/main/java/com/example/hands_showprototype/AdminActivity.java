@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.example.hands_showprototype.AdminPlus.DeleteUserActivity;
 import com.example.hands_showprototype.AdminPlus.SQActivity;
+import com.example.hands_showprototype.AdminPlus.DemoteActivity;
 
 public class AdminActivity extends AppCompatActivity {
 
@@ -27,6 +28,10 @@ public class AdminActivity extends AppCompatActivity {
         startActivity(DeleteU);
     }
 
+    public void GoToDemote(View view){
+        Intent Demote = new Intent(this, DemoteActivity.class);
+        startActivity(Demote);
+    }
 }
 
 
