@@ -86,12 +86,12 @@ public class MainActivity extends AppCompatActivity {
         Intent LearnLang = new Intent(this,LearnLanguage.class);
         startActivity(LearnLang);
     }
-/*
-    public void GoToSupporter(View view){
-        Intent Supporter = new Intent(this,SupporterActivity.class);
-        startActivity(Supporter);
+
+    public void GoToAdmin(View view){
+        Intent Admin = new Intent(this,AdminActivity.class);
+        startActivity(Admin);
     }
-*/
+
     private void updateUI(FirebaseUser user) {
         //hideProgressDialog();
         if (user != null) {
@@ -109,7 +109,12 @@ public class MainActivity extends AppCompatActivity {
                                 if (document.get("accesslevel").hashCode() >= 1) {
                                     findViewById(R.id.Supporter).setVisibility(View.VISIBLE);
                                     if (document.get("accesslevel").hashCode()==1) accessName="Supporter";
-                                    else if (document.get("accesslevel").hashCode()==2) accessName="Admin";
+                                    else if (document.get("accesslevel").hashCode()==2){
+                                        accessName="Admin";
+                                        findViewById(R.id.Admin).setVisibility(View.VISIBLE);
+                                    }
+                                    else
+                                        findViewById(R.id.Admin).setVisibility(View.GONE);
                                 } else {
                                     findViewById(R.id.Supporter).setVisibility(View.GONE);
                                 }
@@ -127,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.SignUp).setVisibility(View.VISIBLE);
             findViewById(R.id.SignOut).setVisibility(View.GONE);
             findViewById(R.id.Supporter).setVisibility(View.GONE);
+            findViewById(R.id.Admin).setVisibility(View.GONE);
         }
     }
 

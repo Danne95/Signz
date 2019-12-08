@@ -90,7 +90,6 @@
         android:id="@+id/Supporter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:onClick="GoToSupporter"
         android:text="Upload Signs"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -98,5 +97,15 @@
         app:layout_constraintTop_toBottomOf="@+id/LearnLang"
         tools:layout_conversion_absoluteHeight="48dp"
         tools:layout_conversion_absoluteWidth="411dp" />
+
+    <Button
+        android:id="@+id/Admin"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:onClick="GoToAdmin"
+        android:text="Admin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Supporter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
