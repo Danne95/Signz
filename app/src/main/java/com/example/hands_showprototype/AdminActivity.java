@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.hands_showprototype.AdminPlus.DeleteUserActivity;
+import com.example.hands_showprototype.AdminPlus.SQActivity;
+
 public class AdminActivity extends AppCompatActivity {
 
     @Override
@@ -19,7 +22,10 @@ public class AdminActivity extends AppCompatActivity {
         startActivity(SupportQ);
     }
 
-
+    public void GoToDeleteUser(View view){
+        Intent DeleteU = new Intent(this, DeleteUserActivity.class);
+        startActivity(DeleteU);
+    }
 
 }
 

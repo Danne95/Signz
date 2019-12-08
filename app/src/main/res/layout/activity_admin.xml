@@ -27,6 +27,7 @@
         android:id="@+id/DeleteU"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="GoToDeleteUser"
         android:text="Delete User" />
 
     <Button
@@ -38,6 +39,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="Supporter Activities"
         tools:text="Sactive" />
 
     <Button
