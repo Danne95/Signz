@@ -3,10 +3,14 @@ package com.example.hands_showprototype;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,12 +28,16 @@ import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import com.google.firebase.ml.vision.label.FirebaseVisionOnDeviceAutoMLImageLabelerOptions;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
 public class PicToTranslateActivity extends AppCompatActivity {
+<<<<<<< HEAD
 
     private TextToSpeech tts;
+=======
+>>>>>>> Camera permissions added
     private ImageView mimageView;
     private static final int REQUEST_IMAGE_CAPTURE = 101;
     private FirebaseAutoMLLocalModel localModel;
@@ -73,7 +81,6 @@ public class PicToTranslateActivity extends AppCompatActivity {
         } catch (FirebaseMLException e) {
             //...
         }
-
     }
 
     @Override
@@ -85,6 +92,10 @@ public class PicToTranslateActivity extends AppCompatActivity {
             mimageView.setImageBitmap(imageBitmap);
             this.image = FirebaseVisionImage.fromBitmap(imageBitmap); // save the image to send it to FB
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> Camera permissions added
         labeler.processImage(this.image)
                 .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
                     @Override

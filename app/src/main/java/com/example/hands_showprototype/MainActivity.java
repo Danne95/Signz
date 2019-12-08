@@ -2,6 +2,8 @@ package com.example.hands_showprototype;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.Manifest;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
+import androidx.core.app.ActivityCompat;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -54,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 100);
+
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         db= FirebaseFirestore.getInstance();
