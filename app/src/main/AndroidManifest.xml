@@ -13,7 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdminActivity"></activity>
+        <activity android:name=".AdminPlus.UsersStatsActivity"></activity>
+        <activity android:name=".AdminPlus.SupportersStatsActivity" />
+        <activity android:name=".AdminPlus.SupporterStatsActivity" />
+        <activity android:name=".AdminPlus.DemoteActivity" />
+        <activity android:name=".AdminPlus.DeleteUserActivity" />
+        <activity android:name=".AdminPlus.SQActivity" />
+        <activity android:name=".AdminActivity" />
         <activity android:name=".ShowPicture" />
         <activity android:name=".SignInActivity" />
         <activity android:name=".SignUpActivity" />

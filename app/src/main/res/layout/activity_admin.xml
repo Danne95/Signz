@@ -27,22 +27,27 @@
         android:id="@+id/DeleteU"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="GoToDeleteUser"
         android:text="Delete User" />
 
     <Button
         android:id="@+id/Demote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="GoToDemote"
         android:text="Demote Supporter" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="Sactive" />
+        android:onClick="GoToSupportersStats"
+        android:text="Supporters Stats"
+        tools:text="Supporters Stats" />
 
     <Button
         android:id="@+id/Uactive"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Users activities" />
+        android:onClick="GoToUsersStats"
+        android:text="Users Stats" />
 </LinearLayout>
