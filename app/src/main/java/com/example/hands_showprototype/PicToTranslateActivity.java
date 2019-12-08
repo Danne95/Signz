@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.speech.tts.TextToSpeech;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,10 +25,11 @@ import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import com.google.firebase.ml.vision.label.FirebaseVisionOnDeviceAutoMLImageLabelerOptions;
 
 import java.util.List;
+import java.util.Locale;
 
 public class PicToTranslateActivity extends AppCompatActivity {
 
-
+    private TextToSpeech tts;
     private ImageView mimageView;
     private static final int REQUEST_IMAGE_CAPTURE = 101;
     private FirebaseAutoMLLocalModel localModel;
@@ -41,10 +43,18 @@ public class PicToTranslateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pic_to_translate);
         mimageView = findViewById(R.id.imageView);
         translation=findViewById(R.id.textView);
-
+        translation.setText(null);
         this.localModel = new FirebaseAutoMLLocalModel.Builder()
                 .setAssetFilePath("manifest.json")
                 .build();
+        tts=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    tts.setLanguage(Locale.US);
+                }
+            }
+        });
     }
 
     public void takePicture(View view) {
@@ -73,11 +83,8 @@ public class PicToTranslateActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             mimageView.setImageBitmap(imageBitmap);
-
             this.image = FirebaseVisionImage.fromBitmap(imageBitmap); // save the image to send it to FB
         }
-
-
         labeler.processImage(this.image)
                 .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
                     @Override
@@ -87,10 +94,8 @@ public class PicToTranslateActivity extends AppCompatActivity {
                             ErrorMsg();
                             return;
                         }
-
                         String text = labels.get(0).getText();
                         float maxConfidence = labels.get(0).getConfidence();
-
                         for (int i = 1; i < labels.size(); i++) // find the best match
                             if (labels.get(i).getConfidence() > maxConfidence) {
                                 maxConfidence = labels.get(i).getConfidence();
@@ -101,9 +106,13 @@ public class PicToTranslateActivity extends AppCompatActivity {
                             ErrorMsg();
                             return;
                         }
-
-                        translation.setText(translation.getText()+text); // update sentence translation
-
+                        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);//reads letter
+                        try {
+                            translation.setText(translation.getText() + text); // update sentence translation
+                        }
+                        catch(Exception e){
+                            translation.setText(text);
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -119,6 +128,21 @@ public class PicToTranslateActivity extends AppCompatActivity {
     {
         Toast txt = Toast.makeText(getApplicationContext(), "Oops, I didn't catch it :(", Toast.LENGTH_SHORT);
         txt.show();
+    }
+
+    public void ReadSentence(View view){
+        try {
+            String sentence = translation.getText().toString();
+            if (sentence != "") {
+                tts.speak(sentence, TextToSpeech.QUEUE_FLUSH, null);
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "There's no sentence yet.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        catch(Exception e) {
+            Toast.makeText(getApplicationContext(), "There's no sentence yet.", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
