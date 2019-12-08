@@ -42,7 +42,7 @@ public class ExampleUnitTest {
 
     private String CheckScanLetter_L()
     {
-        Bitmap imgBMP=BitmapFactory.decodeFile("res/drawable/r.jpg");
+        Bitmap imgBMP=BitmapFactory.decodeFile("C:\\Users\\User\\Desktop\\Signz\\app\\src\\main\\res\\drawable\\l.jpg");
         FirebaseVisionImage img = FirebaseVisionImage.fromBitmap(imgBMP);
 
         FirebaseAutoMLLocalModel localModel = new FirebaseAutoMLLocalModel.Builder()
