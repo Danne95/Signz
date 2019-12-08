@@ -77,18 +77,21 @@ public class MainActivity extends AppCompatActivity {
         startActivity(SignIn);
     }
 
-    public void GoToTranslate(View view){
-        Intent SignTranslate = new Intent(this,PicToTranslateActivity.class);
+    public void GoToTranslate(View view) {
+        Intent SignTranslate = new Intent(this, PicToTranslateActivity.class);
+        UpdateStats("GoToTranslate");
         startActivity(SignTranslate);
     }
 
     public void GoToLearn(View view){
         Intent LearnLang = new Intent(this,LearnLanguage.class);
+        UpdateStats("GoToLearn");
         startActivity(LearnLang);
     }
 
     public void GoToAdmin(View view){
         Intent Admin = new Intent(this,AdminActivity.class);
+        UpdateStats("GoToAdmin");
         startActivity(Admin);
     }
 
@@ -133,6 +136,80 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.SignOut).setVisibility(View.GONE);
             findViewById(R.id.Supporter).setVisibility(View.GONE);
             findViewById(R.id.Admin).setVisibility(View.GONE);
+        }
+    }
+
+    public void UpdateStats(final String funcname){
+        if (mAuth.getCurrentUser() != null) {
+            db.collection("users").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    int accesslevel = 0;
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            accesslevel = document.get("accesslevel").hashCode();
+                        }
+                    }
+                    if (accesslevel == 0) {
+                        db.collection("userstats").document("statsforregular").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        try {
+                                            int count = document.get(funcname).hashCode();
+                                            db.collection("userstats").document("statsforregular").update(funcname, count + 1);
+                                        }
+                                        catch(Exception e){
+                                            db.collection("userstats").document("statsforregular").update(funcname,1);
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    else if(accesslevel==1){
+                        db.collection("userstats").document("statsforsupporter").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        try {
+                                            int count = document.get(funcname).hashCode();
+                                            db.collection("userstats").document("statsforsupporter").update(funcname, count + 1);
+                                        }
+                                        catch(Exception e){
+                                            db.collection("userstats").document("statsforsupporter").update(funcname,1);
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    else if(accesslevel==2){
+                        db.collection("userstats").document("statsforadmin").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        try {
+                                            int count = document.get(funcname).hashCode();
+                                            db.collection("userstats").document("statsforadmin").update(funcname, count + 1);
+                                        }
+                                        catch(Exception e){
+                                            db.collection("userstats").document("statsforadmin").update(funcname,1);
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+            });
         }
     }
 
