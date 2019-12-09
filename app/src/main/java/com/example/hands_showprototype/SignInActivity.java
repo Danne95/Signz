@@ -14,6 +14,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -36,8 +38,8 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void SignIn(View view) {
-        String email=((EditText)findViewById(R.id.emailInput)).getText().toString();
-        String password=((EditText)findViewById(R.id.passInput)).getText().toString();
+        String email = ((EditText) findViewById(R.id.emailInput)).getText().toString();
+        String password = ((EditText) findViewById(R.id.passInput)).getText().toString();
 
         // [START sign_in_with_email]
         mAuth.signInWithEmailAndPassword(email, password)
@@ -62,8 +64,8 @@ public class SignInActivity extends AppCompatActivity {
         //hideProgressDialog();
         if (user != null) {
             finish();
-        } else {
-
         }
     }
 }
+
+
