@@ -1,137 +1,71 @@
 package com.example.hands_showprototype;
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
-import android.view.View;
-import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
-import androidx.annotation.NonNull;
-<<<<<<< HEAD
-=======
-import androidx.annotation.Nullable;
-import androidx.annotation.WorkerThread;
-import androidx.core.app.ActivityCompat;
-
-import java.util.Map;
-import java.util.HashMap;
->>>>>>> 57bfc596456dc09f8de2e874ed66f44f128c4562
-
-import com.google.android.gms.tasks.Task;
+import com.example.hands_showprototype.AdminPlus.AdminsStatsActivity;
+import com.example.hands_showprototype.AdminPlus.DeleteUserActivity;
+import com.example.hands_showprototype.AdminPlus.SQActivity;
+import com.example.hands_showprototype.AdminPlus.DemoteActivity;
+import com.example.hands_showprototype.AdminPlus.SupportersStatsActivity;
+import com.example.hands_showprototype.AdminPlus.UsersStatsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
-public class MainActivity extends AppCompatActivity {
-
+public class AdminActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 100);
-
-        // Initialize Firebase Auth
+        setContentView(R.layout.activity_admin);
         mAuth = FirebaseAuth.getInstance();
         db= FirebaseFirestore.getInstance();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+    public void GoToSupportQ(View view){
+        Intent SupportQ = new Intent(this, SQActivity.class);
+        UpdateStats("GoToSupportQ");
+        startActivity(SupportQ);
     }
 
-    public void GoToSignUp(View view){
-        Intent SignUp = new Intent(this,SignUpActivity.class);
-        startActivity(SignUp);
+    public void GoToDeleteUser(View view){
+        Intent DeleteU = new Intent(this, DeleteUserActivity.class);
+        UpdateStats("GoToDeleteUser");
+        startActivity(DeleteU);
     }
 
-    public void GoToSignIn(View view){
-        Intent SignIn = new Intent(this,SignInActivity.class);
-        startActivity(SignIn);
+    public void GoToDemote(View view){
+        Intent Demote = new Intent(this, DemoteActivity.class);
+        UpdateStats("GoToDemote");
+        startActivity(Demote);
     }
 
-    public void GoToTranslate(View view) {
-        Intent SignTranslate = new Intent(this, PicToTranslateActivity.class);
-        UpdateStats("GoToTranslate");
-        startActivity(SignTranslate);
+    public void GoToUsersStats(View view){
+        Intent UsersStats = new Intent(this, UsersStatsActivity.class);
+        UpdateStats("GoToUsersStats");
+        startActivity(UsersStats);
     }
 
-    public void GoToLearn(View view){
-<<<<<<< HEAD
-        Intent LearnLang = new Intent(this, LearnLanguage.class);
-        startActivity(LearnLang);
+    public void GoToSupportersStats(View view){
+        Intent SupportersStats = new Intent(this, SupportersStatsActivity.class);
+        UpdateStats("GoToSupportersStats");
+        startActivity(SupportersStats);
     }
 
-    public void GoToSupporter(View view){
-        Intent Supporter = new Intent(this, LearnLanguage.class);
-        startActivity(Supporter);
-=======
-        Intent LearnLang = new Intent(this,LearnLanguage.class);
-        UpdateStats("GoToLearn");
-        startActivity(LearnLang);
-    }
-
-    public void GoToAdmin(View view){
-        Intent Admin = new Intent(this,AdminActivity.class);
-        UpdateStats("GoToAdmin");
-        startActivity(Admin);
->>>>>>> 57bfc596456dc09f8de2e874ed66f44f128c4562
-    }
-
-    private void updateUI(FirebaseUser user) {
-        //hideProgressDialog();
-        if (user != null) {
-            findViewById(R.id.SignIn).setVisibility(View.GONE);
-            findViewById(R.id.SignUp).setVisibility(View.GONE);
-            findViewById(R.id.SignOut).setVisibility(View.VISIBLE);
-            db.collection("users").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            if(document.get("accesslevel").hashCode()>=0) {
-                                String accessName="Regular";
-                                if (document.get("accesslevel").hashCode() >= 1) {
-                                    findViewById(R.id.Supporter).setVisibility(View.VISIBLE);
-                                    if (document.get("accesslevel").hashCode()==1) accessName="Supporter";
-                                    else if (document.get("accesslevel").hashCode()==2){
-                                        accessName="Admin";
-                                        findViewById(R.id.Admin).setVisibility(View.VISIBLE);
-                                    }
-                                    else
-                                        findViewById(R.id.Admin).setVisibility(View.GONE);
-                                } else {
-                                    findViewById(R.id.Supporter).setVisibility(View.GONE);
-                                }
-                                String name= "Hey "+document.get("name").toString()+'('+accessName+')'+',';
-                                ((TextView)findViewById(R.id.Welcome)).setText(name);
-                                findViewById(R.id.Welcome).setVisibility(View.VISIBLE);
-                            }
-                        }
-                    }
-                }
-            });
-        } else {
-            findViewById(R.id.Welcome).setVisibility(View.GONE);
-            findViewById(R.id.SignIn).setVisibility(View.VISIBLE);
-            findViewById(R.id.SignUp).setVisibility(View.VISIBLE);
-            findViewById(R.id.SignOut).setVisibility(View.GONE);
-            findViewById(R.id.Supporter).setVisibility(View.GONE);
-            findViewById(R.id.Admin).setVisibility(View.GONE);
-        }
+    public void GoToAdminsStats(View view){
+        Intent AdminsStats = new Intent(this, AdminsStatsActivity.class);
+        UpdateStats("GoToAdminsStats");
+        startActivity(AdminsStats);
     }
 
     public void UpdateStats(final String funcname){
@@ -207,9 +141,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
-
-    public void SignOut(View view) {
-        mAuth.signOut();
-        updateUI(null);
-    }
 }
+
+
+

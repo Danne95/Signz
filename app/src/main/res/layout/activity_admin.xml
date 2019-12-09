@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.hands_showprototype.AdminActivity">
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Admin Menu"
+        android:textAlignment="center"
+        android:textSize="30sp" />
+
+    <Button
+        android:id="@+id/SQueue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="GoToSupportQ"
+        android:text="Supporter Queue" />
+
+    <Button
+        android:id="@+id/SDemote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="GoToDemote"
+        android:text="Demote Supporter" />
+
+    <Button
+        android:id="@+id/UDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="GoToDeleteUser"
+        android:text="Delete User" />
+
+    <Button
+        android:id="@+id/UStats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="GoToUsersStats"
+        android:text="Users Stats" />
+
+    <Button
+        android:id="@+id/SStats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="GoToSupportersStats"
+        android:text="Supporters Stats"
+        tools:text="Supporters Stats" />
+
+    <Button
+        android:id="@+id/AStats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="GoToAdminsStats"
+        android:text="Admins Stats" />
+
+</LinearLayout>
