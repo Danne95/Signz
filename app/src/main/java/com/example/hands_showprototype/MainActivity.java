@@ -16,34 +16,13 @@ import androidx.core.app.ActivityCompat;
 import java.util.Map;
 import java.util.HashMap;
 
+
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentChange.Type;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FieldPath;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.MetadataChanges;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.Query.Direction;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.ServerTimestamp;
-import com.google.firebase.firestore.SetOptions;
-import com.google.firebase.firestore.Source;
-import com.google.firebase.firestore.Transaction;
-import com.google.firebase.firestore.WriteBatch;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -55,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 100);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -88,6 +65,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void GoToLearn(View view){
+
+        Intent LearnLang = new Intent(this, LearnLanguage.class);
+        startActivity(LearnLang);
+    }
+
+    public void GoToSupporter(View view){
+        Intent Supporter = new Intent(this, LearnLanguage.class);
+        startActivity(Supporter);
+
         Intent LearnLang = new Intent(this,LearnLanguage.class);
         UpdateStats("GoToLearn");
         startActivity(LearnLang);

@@ -4,9 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -63,10 +65,22 @@ public class PicToTranslateActivity extends AppCompatActivity {
     }
 
     public void takePicture(View view) {
-        Intent imageTakeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_DENIED) {
+            Toast txt = Toast.makeText(getApplicationContext(), "Please, grant permission to open camera.", Toast.LENGTH_LONG);
+            txt.show();
+            tts.speak("Please, grant permission to open camera", TextToSpeech.QUEUE_FLUSH, null);//reads
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 100);
 
-        if (imageTakeIntent.resolveActivity(getPackageManager()) != null)
-            startActivityForResult(imageTakeIntent, REQUEST_IMAGE_CAPTURE);
+        }
+
+        Intent imageTakeIntent;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+            imageTakeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (imageTakeIntent.resolveActivity(getPackageManager()) != null)
+                startActivityForResult(imageTakeIntent, REQUEST_IMAGE_CAPTURE);
+        }
 
         try {
             FirebaseVisionOnDeviceAutoMLImageLabelerOptions options =
@@ -89,6 +103,7 @@ public class PicToTranslateActivity extends AppCompatActivity {
             mimageView.setImageBitmap(imageBitmap);
             this.image = FirebaseVisionImage.fromBitmap(imageBitmap); // save the image to send it to FB
         }
+        else return;
 
         labeler.processImage(this.image)
                 .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
@@ -133,6 +148,7 @@ public class PicToTranslateActivity extends AppCompatActivity {
     {
         Toast txt = Toast.makeText(getApplicationContext(), "Oops, I didn't catch it :(", Toast.LENGTH_SHORT);
         txt.show();
+        tts.speak("Oops, I didn't catch it", TextToSpeech.QUEUE_FLUSH, null);//reads
     }
 
     public void ReadSentence(View view){
