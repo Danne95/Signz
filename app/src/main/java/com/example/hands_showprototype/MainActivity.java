@@ -1,6 +1,4 @@
 package com.example.hands_showprototype;
-
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;

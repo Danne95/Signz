@@ -143,10 +143,12 @@ public class PicToTranslateActivity extends AppCompatActivity {
             }
             else {
                 Toast.makeText(getApplicationContext(), "There's no sentence yet.", Toast.LENGTH_SHORT).show();
+                tts.speak("There's no sentence yet", TextToSpeech.QUEUE_FLUSH, null);//reads
             }
         }
         catch(Exception e) {
             Toast.makeText(getApplicationContext(), "There's no sentence yet.", Toast.LENGTH_SHORT).show();
+            tts.speak("There's no sentence yet", TextToSpeech.QUEUE_FLUSH, null);//reads
         }
     }
 

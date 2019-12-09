@@ -20,15 +20,12 @@
         <activity android:name=".AdminPlus.AdminsStatsActivity"></activity>
         <activity android:name=".AdminPlus.UsersStatsActivity" />
         <activity android:name=".AdminPlus.SupportersStatsActivity" />
-        <activity android:name=".AdminPlus.SupporterStatsActivity" />
         <activity android:name=".AdminPlus.DemoteActivity" />
         <activity android:name=".AdminPlus.DeleteUserActivity" />
         <activity android:name=".AdminPlus.SQActivity" />
         <activity android:name=".AdminActivity" />
-        <activity android:name=".ShowPicture" />
 
-
-        <activity android:name=".ShowPicture"></activity>
+        <activity android:name=".ShowPicture"/>
         <activity android:name=".SignInActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LearnLanguage" />
