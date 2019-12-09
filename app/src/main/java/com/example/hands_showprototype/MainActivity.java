@@ -9,15 +9,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-<<<<<<< HEAD
-=======
 import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 import androidx.core.app.ActivityCompat;
 
 import java.util.Map;
 import java.util.HashMap;
->>>>>>> 57bfc596456dc09f8de2e874ed66f44f128c4562
+
 
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 100);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -69,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void GoToLearn(View view){
-<<<<<<< HEAD
+
         Intent LearnLang = new Intent(this, LearnLanguage.class);
         startActivity(LearnLang);
     }
@@ -77,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     public void GoToSupporter(View view){
         Intent Supporter = new Intent(this, LearnLanguage.class);
         startActivity(Supporter);
-=======
+
         Intent LearnLang = new Intent(this,LearnLanguage.class);
         UpdateStats("GoToLearn");
         startActivity(LearnLang);
@@ -87,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
         Intent Admin = new Intent(this,AdminActivity.class);
         UpdateStats("GoToAdmin");
         startActivity(Admin);
->>>>>>> 57bfc596456dc09f8de2e874ed66f44f128c4562
     }
 
     private void updateUI(FirebaseUser user) {
