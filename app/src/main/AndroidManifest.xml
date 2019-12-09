@@ -16,7 +16,6 @@
         <activity android:name=".ShowPicture"></activity>
         <activity android:name=".SignInActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".SupporterActivity" />
         <activity android:name=".LearnLanguage" />
         <activity android:name=".PicToTranslateActivity" />
         <activity android:name=".MainActivity">
