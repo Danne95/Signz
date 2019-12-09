@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<<<<<<< HEAD
+
         <activity android:name=".AdminPlus.AdminsStatsActivity"></activity>
         <activity android:name=".AdminPlus.UsersStatsActivity" />
         <activity android:name=".AdminPlus.SupportersStatsActivity" />
@@ -26,10 +26,9 @@
         <activity android:name=".AdminPlus.SQActivity" />
         <activity android:name=".AdminActivity" />
         <activity android:name=".ShowPicture" />
-=======
+
 
         <activity android:name=".ShowPicture"></activity>
->>>>>>> Camera permissions added
         <activity android:name=".SignInActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LearnLanguage" />

@@ -33,11 +33,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class PicToTranslateActivity extends AppCompatActivity {
-<<<<<<< HEAD
 
     private TextToSpeech tts;
-=======
->>>>>>> Camera permissions added
     private ImageView mimageView;
     private static final int REQUEST_IMAGE_CAPTURE = 101;
     private FirebaseAutoMLLocalModel localModel;
@@ -92,10 +89,7 @@ public class PicToTranslateActivity extends AppCompatActivity {
             mimageView.setImageBitmap(imageBitmap);
             this.image = FirebaseVisionImage.fromBitmap(imageBitmap); // save the image to send it to FB
         }
-<<<<<<< HEAD
-=======
 
->>>>>>> Camera permissions added
         labeler.processImage(this.image)
                 .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
                     @Override
