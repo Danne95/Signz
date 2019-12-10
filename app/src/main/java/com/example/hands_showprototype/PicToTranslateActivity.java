@@ -128,10 +128,15 @@ public class PicToTranslateActivity extends AppCompatActivity {
                         }
                         tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);//reads letter
                         try {
-                            translation.setText(translation.getText() + text); // update sentence translation
+                            if(text.equals("SPACE"))
+                                translation.setText(translation.getText() + " "); // update sentence translation
+                            else if(text.equals("DELETE"))
+                                translation.setText(translation.getText().subSequence(0,translation.getText().length()-1)); // update sentence translation
+                            else
+                                translation.setText(translation.getText() + text); // update sentence translation
                         }
                         catch(Exception e){
-                            translation.setText(text);
+
                         }
                     }
                 })
