@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.speech.tts.TextToSpeech;
@@ -126,7 +127,9 @@ public class PicToTranslateActivity extends AppCompatActivity {
                             ErrorMsg();
                             return;
                         }
-                        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);//reads letter
+                        if(((Switch)findViewById(R.id.ttsState)).isChecked()) {
+                            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);//reads letter
+                        }
                         try {
                             if(text.equals("SPACE"))
                                 translation.setText(translation.getText() + " "); // update sentence translation
@@ -135,9 +138,7 @@ public class PicToTranslateActivity extends AppCompatActivity {
                             else
                                 translation.setText(translation.getText() + text); // update sentence translation
                         }
-                        catch(Exception e){
-
-                        }
+                        catch(Exception e){}
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -153,7 +154,9 @@ public class PicToTranslateActivity extends AppCompatActivity {
     {
         Toast txt = Toast.makeText(getApplicationContext(), "Oops, I didn't catch it :(", Toast.LENGTH_SHORT);
         txt.show();
-        tts.speak("Oops, I didn't catch it", TextToSpeech.QUEUE_FLUSH, null);//reads
+        if(((Switch)findViewById(R.id.ttsState)).isChecked()) {
+            tts.speak("Oops, I didn't catch it", TextToSpeech.QUEUE_FLUSH, null);//reads
+        }
     }
 
     public void ReadSentence(View view){
