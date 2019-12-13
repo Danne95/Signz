@@ -3,13 +3,20 @@ package com.example.hands_showprototype;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.speech.tts.TextToSpeech;
@@ -24,6 +31,7 @@ import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import com.google.firebase.ml.vision.label.FirebaseVisionOnDeviceAutoMLImageLabelerOptions;
 
+import java.io.File;
 import java.util.List;
 import java.util.Locale;
 
@@ -58,10 +66,22 @@ public class PicToTranslateActivity extends AppCompatActivity {
     }
 
     public void takePicture(View view) {
-        Intent imageTakeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_DENIED) {
+            Toast txt = Toast.makeText(getApplicationContext(), "Please, grant permission to open camera.", Toast.LENGTH_LONG);
+            txt.show();
+            tts.speak("Please, grant permission to open camera", TextToSpeech.QUEUE_FLUSH, null);//reads
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 100);
 
-        if (imageTakeIntent.resolveActivity(getPackageManager()) != null)
-            startActivityForResult(imageTakeIntent, REQUEST_IMAGE_CAPTURE);
+        }
+
+        Intent imageTakeIntent;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+            imageTakeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            if (imageTakeIntent.resolveActivity(getPackageManager()) != null)
+                startActivityForResult(imageTakeIntent, REQUEST_IMAGE_CAPTURE);
+        }
 
         try {
             FirebaseVisionOnDeviceAutoMLImageLabelerOptions options =
@@ -73,7 +93,6 @@ public class PicToTranslateActivity extends AppCompatActivity {
         } catch (FirebaseMLException e) {
             //...
         }
-
     }
 
     @Override
@@ -85,6 +104,8 @@ public class PicToTranslateActivity extends AppCompatActivity {
             mimageView.setImageBitmap(imageBitmap);
             this.image = FirebaseVisionImage.fromBitmap(imageBitmap); // save the image to send it to FB
         }
+        else return;
+
         labeler.processImage(this.image)
                 .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
                     @Override
@@ -106,13 +127,18 @@ public class PicToTranslateActivity extends AppCompatActivity {
                             ErrorMsg();
                             return;
                         }
-                        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);//reads letter
+                        if(((Switch)findViewById(R.id.ttsState)).isChecked()) {
+                            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);//reads letter
+                        }
                         try {
-                            translation.setText(translation.getText() + text); // update sentence translation
+                            if(text.equals("SPACE"))
+                                translation.setText(translation.getText() + " "); // update sentence translation
+                            else if(text.equals("DELETE"))
+                                translation.setText(translation.getText().subSequence(0,translation.getText().length()-1)); // update sentence translation
+                            else
+                                translation.setText(translation.getText() + text); // update sentence translation
                         }
-                        catch(Exception e){
-                            translation.setText(text);
-                        }
+                        catch(Exception e){}
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -128,6 +154,9 @@ public class PicToTranslateActivity extends AppCompatActivity {
     {
         Toast txt = Toast.makeText(getApplicationContext(), "Oops, I didn't catch it :(", Toast.LENGTH_SHORT);
         txt.show();
+        if(((Switch)findViewById(R.id.ttsState)).isChecked()) {
+            tts.speak("Oops, I didn't catch it", TextToSpeech.QUEUE_FLUSH, null);//reads
+        }
     }
 
     public void ReadSentence(View view){
@@ -138,10 +167,12 @@ public class PicToTranslateActivity extends AppCompatActivity {
             }
             else {
                 Toast.makeText(getApplicationContext(), "There's no sentence yet.", Toast.LENGTH_SHORT).show();
+                tts.speak("There's no sentence yet", TextToSpeech.QUEUE_FLUSH, null);//reads
             }
         }
         catch(Exception e) {
             Toast.makeText(getApplicationContext(), "There's no sentence yet.", Toast.LENGTH_SHORT).show();
+            tts.speak("There's no sentence yet", TextToSpeech.QUEUE_FLUSH, null);//reads
         }
     }
 

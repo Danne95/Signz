@@ -17,27 +17,35 @@
         android:textSize="30sp" />
 
     <Button
-        android:id="@+id/SQ"
+        android:id="@+id/SQueue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="GoToSupportQ"
         android:text="Supporter Queue" />
 
     <Button
-        android:id="@+id/DeleteU"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="GoToDeleteUser"
-        android:text="Delete User" />
-
-    <Button
-        android:id="@+id/Demote"
+        android:id="@+id/SDemote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="GoToDemote"
         android:text="Demote Supporter" />
 
     <Button
+        android:id="@+id/UDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="GoToDeleteUser"
+        android:text="Delete User" />
+
+    <Button
+        android:id="@+id/UStats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="GoToUsersStats"
+        android:text="Users Stats" />
+
+    <Button
+        android:id="@+id/SStats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="GoToSupportersStats"
@@ -45,9 +53,10 @@
         tools:text="Supporters Stats" />
 
     <Button
-        android:id="@+id/Uactive"
+        android:id="@+id/AStats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="GoToUsersStats"
-        android:text="Users Stats" />
+        android:onClick="GoToAdminsStats"
+        android:text="Admins Stats" />
+
 </LinearLayout>

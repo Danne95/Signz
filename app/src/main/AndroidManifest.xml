@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.hands_showprototype">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="true" />
@@ -12,18 +15,20 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".AdminPlus.UsersStatsActivity"></activity>
+        android:theme="@style/AppTheme"
+        android:layoutDirection="ltr">
+
+        <activity android:name=".AdminPlus.AdminsStatsActivity"></activity>
+        <activity android:name=".AdminPlus.UsersStatsActivity" />
         <activity android:name=".AdminPlus.SupportersStatsActivity" />
-        <activity android:name=".AdminPlus.SupporterStatsActivity" />
         <activity android:name=".AdminPlus.DemoteActivity" />
         <activity android:name=".AdminPlus.DeleteUserActivity" />
         <activity android:name=".AdminPlus.SQActivity" />
         <activity android:name=".AdminActivity" />
-        <activity android:name=".ShowPicture" />
+
+        <activity android:name=".ShowPicture"/>
         <activity android:name=".SignInActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".SupporterActivity" />
         <activity android:name=".LearnLanguage" />
         <activity android:name=".PicToTranslateActivity" />
         <activity android:name=".MainActivity">
