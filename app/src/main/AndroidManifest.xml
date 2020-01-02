@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdminPlus.SQ_list_node"></activity>
+        <activity android:name=".DemoteActivity"></activity>
+        <activity android:name=".AdminPlus.SQ_list_node" />
         <activity android:name=".AdminPlus.AdminsStatsActivity" />
         <activity android:name=".AdminPlus.UsersStatsActivity" />
         <activity android:name=".AdminPlus.SupportersStatsActivity" />

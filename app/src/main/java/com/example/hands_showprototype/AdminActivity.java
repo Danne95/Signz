@@ -9,8 +9,8 @@ import android.view.View;
 
 import com.example.hands_showprototype.AdminPlus.AdminsStatsActivity;
 import com.example.hands_showprototype.AdminPlus.DeleteUserActivity;
+import com.example.hands_showprototype.DemoteActivity;
 import com.example.hands_showprototype.AdminPlus.SQActivity;
-import com.example.hands_showprototype.AdminPlus.DemoteActivity;
 import com.example.hands_showprototype.AdminPlus.SupportersStatsActivity;
 import com.example.hands_showprototype.AdminPlus.UsersStatsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;

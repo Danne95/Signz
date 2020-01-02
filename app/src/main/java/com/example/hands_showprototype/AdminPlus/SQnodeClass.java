@@ -34,7 +34,8 @@ public class SQnodeClass extends ArrayAdapter<SupportersClass> {
         LayoutInflater inflater = context.getLayoutInflater();
         View ListViewItem = inflater.inflate(R.layout.activity_sq_node,null,true);
         TextView textViewName = (TextView) ListViewItem.findViewById(R.id.textViewName);
-        String UID = Document.getString("uid");
+        /*String UID = new String();
+        UID = Document.getString("uid");*/
         textViewName.setText(Document.getString("name"));
 
         return ListViewItem;
