@@ -65,18 +65,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void GoToLearn(View view){
-
         Intent LearnLang = new Intent(this, LearnLanguage.class);
         startActivity(LearnLang);
     }
 
     public void GoToSupporter(View view){
-        Intent Supporter = new Intent(this, LearnLanguage.class);
+        Intent Supporter = new Intent(this, SupporterActivity.class);
         startActivity(Supporter);
-
-        Intent LearnLang = new Intent(this,LearnLanguage.class);
-        UpdateStats("GoToLearn");
-        startActivity(LearnLang);
     }
 
     public void GoToAdmin(View view){

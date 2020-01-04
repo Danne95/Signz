@@ -72,7 +72,6 @@ public class PicToTranslateActivity extends AppCompatActivity {
             txt.show();
             tts.speak("Please, grant permission to open camera", TextToSpeech.QUEUE_FLUSH, null);//reads
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, 100);
-
         }
 
         Intent imageTakeIntent;
