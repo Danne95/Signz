@@ -28,6 +28,7 @@ public class SupporterActivity extends AppCompatActivity {
     private ListView letters;
     private TextView letterPicked;
     private ImageView img1, img2;
+    private boolean isPicTaken;
     private int[] numberImages={R.drawable.h,R.drawable.e,R.drawable.l,R.drawable.o,R.drawable.w,R.drawable.r,R.drawable.d};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,8 @@ public class SupporterActivity extends AppCompatActivity {
         this.letterPicked=findViewById(R.id.textView14);
         this.img1=findViewById(R.id.imageView2);
         this.img2=findViewById(R.id.imageView3);
+        this.isPicTaken=false;
+
 //add listener to listview
         letters.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -86,6 +89,16 @@ public class SupporterActivity extends AppCompatActivity {
                 startActivityForResult(imageTakeIntent, 101);
         }
     }
+    public void UploadPicture(View view) {
+        if(this.letterPicked.getText().equals("")) // if user didnt choose a specific letter to upload
+            Toast.makeText(getApplicationContext(), "Pick Sign First!", Toast.LENGTH_LONG).show();
+        else if(!this.isPicTaken) // if image wasnt taken yet
+            Toast.makeText(getApplicationContext(), "Take Picture First!", Toast.LENGTH_LONG).show();
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Picture Uploaded Successfully!", Toast.LENGTH_LONG).show();
+        }
+    }
         @Override
         protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
@@ -93,6 +106,7 @@ public class SupporterActivity extends AppCompatActivity {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
                 this.img2.setImageBitmap(imageBitmap); // update photo of user and show it
+                this.isPicTaken=true;
             }
             else return;
     }
