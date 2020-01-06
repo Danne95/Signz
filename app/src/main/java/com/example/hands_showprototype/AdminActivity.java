@@ -32,11 +32,11 @@ public class AdminActivity extends AppCompatActivity {
         startActivity(SupportQ);
     }*/
 
-    /*public void GoToDeleteUser(View view){
+    public void GoToDeleteUser(View view){
         Intent DeleteU = new Intent(this, DeleteUserActivity.class);
         UpdateStats("GoToDeleteUser");
         startActivity(DeleteU);
-    }*/
+    }
 
     public void GoToDemote(View view){
         Intent Demote = new Intent(this, DemoteActivity.class);
