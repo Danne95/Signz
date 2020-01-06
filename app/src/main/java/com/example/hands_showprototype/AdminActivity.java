@@ -7,12 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.hands_showprototype.AdminPlus.AdminsStatsActivity;
-import com.example.hands_showprototype.AdminPlus.DeleteUserActivity;
-import com.example.hands_showprototype.DemoteActivity;
-import com.example.hands_showprototype.AdminPlus.SQActivity;
-import com.example.hands_showprototype.AdminPlus.SupportersStatsActivity;
-import com.example.hands_showprototype.AdminPlus.UsersStatsActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,17 +26,17 @@ public class AdminActivity extends AppCompatActivity {
         db= FirebaseFirestore.getInstance();
     }
 
-    public void GoToSupportQ(View view){
+    /*public void GoToSupportQ(View view){
         Intent SupportQ = new Intent(this, SQActivity.class);
         UpdateStats("GoToSupportQ");
         startActivity(SupportQ);
-    }
+    }*/
 
-    public void GoToDeleteUser(View view){
+    /*public void GoToDeleteUser(View view){
         Intent DeleteU = new Intent(this, DeleteUserActivity.class);
         UpdateStats("GoToDeleteUser");
         startActivity(DeleteU);
-    }
+    }*/
 
     public void GoToDemote(View view){
         Intent Demote = new Intent(this, DemoteActivity.class);
@@ -50,23 +44,23 @@ public class AdminActivity extends AppCompatActivity {
         startActivity(Demote);
     }
 
-    public void GoToUsersStats(View view){
+    /*public void GoToUsersStats(View view){
         Intent UsersStats = new Intent(this, UsersStatsActivity.class);
         UpdateStats("GoToUsersStats");
         startActivity(UsersStats);
-    }
+    }*/
 
-    public void GoToSupportersStats(View view){
+    /*public void GoToSupportersStats(View view){
         Intent SupportersStats = new Intent(this, SupportersStatsActivity.class);
         UpdateStats("GoToSupportersStats");
         startActivity(SupportersStats);
-    }
+    }*/
 
-    public void GoToAdminsStats(View view){
+    /*public void GoToAdminsStats(View view){
         Intent AdminsStats = new Intent(this, AdminsStatsActivity.class);
         UpdateStats("GoToAdminsStats");
         startActivity(AdminsStats);
-    }
+    }*/
 
     public void UpdateStats(final String funcname){
         if (mAuth.getCurrentUser() != null) {

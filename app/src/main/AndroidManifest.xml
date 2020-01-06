@@ -19,13 +19,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".SupporterActivity"></activity>
         <activity android:name=".DemoteActivity" />
-        <activity android:name=".AdminPlus.SQ_list_node" />
-        <activity android:name=".AdminPlus.AdminsStatsActivity" />
-        <activity android:name=".AdminPlus.UsersStatsActivity" />
-        <activity android:name=".AdminPlus.SupportersStatsActivity" />
-        <activity android:name=".AdminPlus.DemoteActivity" />
-        <activity android:name=".AdminPlus.DeleteUserActivity" />
-        <activity android:name=".AdminPlus.SQActivity" />
         <activity android:name=".AdminActivity" />
         <activity android:name=".ShowPicture" />
         <activity android:name=".SignInActivity" />
