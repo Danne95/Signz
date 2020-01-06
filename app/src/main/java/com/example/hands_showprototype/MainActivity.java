@@ -90,30 +90,33 @@ public class MainActivity extends AppCompatActivity {
             db.collection("users").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    long accesslevel = 0;
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            if(document.get("accesslevel").hashCode()>=0) {
-                                String accessName="Regular";
-                                if (document.get("accesslevel").hashCode() >= 1) {
-                                    findViewById(R.id.Supporter).setVisibility(View.VISIBLE);
-                                    if (document.get("accesslevel").hashCode()==1){
-                                        accessName="Supporter";
-                                        findViewById(R.id.Admin).setVisibility(View.GONE);
-                                    }
-                                    else if (document.get("accesslevel").hashCode()==2) {
-                                        accessName = "Admin";
-                                        findViewById(R.id.Admin).setVisibility(View.VISIBLE);
-                                    }
-                                } else {
-                                    findViewById(R.id.Supporter).setVisibility(View.GONE);
+                            accesslevel = document.getLong("accesslevel");
+                        }
+                        if(accesslevel>=0) {
+                            String accessName="Regular";
+                            if (accesslevel >= 1) {
+                                accessName="Supporter";
+                                findViewById(R.id.Supporter).setVisibility(View.VISIBLE);
+                                if (accesslevel==2) {
+                                    accessName = "Admin";
+                                    findViewById(R.id.Admin).setVisibility(View.VISIBLE);
                                 }
-                                String name= "Hey "+document.get("name").toString()+'('+accessName+')'+',';
-                                ((TextView)findViewById(R.id.Welcome)).setText(name);
-                                findViewById(R.id.Welcome).setVisibility(View.VISIBLE);
+                                else{
+                                    findViewById(R.id.Admin).setVisibility(View.GONE);
+                                }
+                            } else {
+                                findViewById(R.id.Supporter).setVisibility(View.GONE);
                             }
+                            String name= "Hey "+document.get("name").toString()+'('+accessName+')'+',';
+                            ((TextView)findViewById(R.id.Welcome)).setText(name);
+                            findViewById(R.id.Welcome).setVisibility(View.VISIBLE);
                         }
                     }
+
                 }
             });
         } else {
@@ -135,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            accesslevel = document.get("accesslevel").hashCode();
+                            accesslevel = document.getLong("accesslevel").intValue();
                         }
                     }
                     if (accesslevel == 0) {
@@ -146,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                                     DocumentSnapshot document = task.getResult();
                                     if (document.exists()) {
                                         try {
-                                            int count = document.get(funcname).hashCode();
+                                            int count = document.getLong(funcname).intValue();
                                             db.collection("userstats").document("statsforregular").update(funcname, count + 1);
                                         }
                                         catch(Exception e){
@@ -165,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                                     DocumentSnapshot document = task.getResult();
                                     if (document.exists()) {
                                         try {
-                                            int count = document.get(funcname).hashCode();
+                                            int count = document.getLong(funcname).intValue();
                                             db.collection("userstats").document("statsforsupporter").update(funcname, count + 1);
                                         }
                                         catch(Exception e){
@@ -184,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
                                     DocumentSnapshot document = task.getResult();
                                     if (document.exists()) {
                                         try {
-                                            int count = document.get(funcname).hashCode();
+                                            int count = document.getLong(funcname).intValue();
                                             db.collection("userstats").document("statsforadmin").update(funcname, count + 1);
                                         }
                                         catch(Exception e){
