@@ -46,7 +46,7 @@ public class AdminActivity extends AppCompatActivity {
 
     public void GoToUsersStats(View view){
         Intent UsersStats = new Intent(this, UsersStatsActivity.class);
-        //UpdateStats("GoToUsersStats");
+        UpdateStats("GoToUsersStats");
         startActivity(UsersStats);
     }
 
