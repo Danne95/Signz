@@ -41,9 +41,7 @@ public class DeleteUserActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 usersRef.document(document.getId()).delete();
-                                //Map<Object, Number> map = new HashMap<>();
-                                //map.put("accesslevel", 0);
-                                //usersRef.document(document.getId()).set(map, SetOptions.merge());
+                                Toast.makeText(getApplicationContext(), "User Deleted Successfully.", Toast.LENGTH_LONG).show();
                             }
                         }
                     }
