@@ -16,7 +16,6 @@ import androidx.core.app.ActivityCompat;
 import java.util.Map;
 import java.util.HashMap;
 
-
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -66,11 +65,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void GoToLearn(View view){
         Intent LearnLang = new Intent(this, LearnLanguage.class);
+        UpdateStats("GoToLearn");
         startActivity(LearnLang);
     }
 
     public void GoToSupporter(View view){
         Intent Supporter = new Intent(this, SupporterActivity.class);
+        UpdateStats("GoToSupporter");
         startActivity(Supporter);
     }
 
@@ -96,13 +97,14 @@ public class MainActivity extends AppCompatActivity {
                                 String accessName="Regular";
                                 if (document.get("accesslevel").hashCode() >= 1) {
                                     findViewById(R.id.Supporter).setVisibility(View.VISIBLE);
-                                    if (document.get("accesslevel").hashCode()==1) accessName="Supporter";
-                                    else if (document.get("accesslevel").hashCode()==2){
-                                        accessName="Admin";
+                                    if (document.get("accesslevel").hashCode()==1){
+                                        accessName="Supporter";
+                                        findViewById(R.id.Admin).setVisibility(View.GONE);
+                                    }
+                                    else if (document.get("accesslevel").hashCode()==2) {
+                                        accessName = "Admin";
                                         findViewById(R.id.Admin).setVisibility(View.VISIBLE);
                                     }
-                                    else
-                                        findViewById(R.id.Admin).setVisibility(View.GONE);
                                 } else {
                                     findViewById(R.id.Supporter).setVisibility(View.GONE);
                                 }

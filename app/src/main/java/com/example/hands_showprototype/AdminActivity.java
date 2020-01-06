@@ -44,11 +44,11 @@ public class AdminActivity extends AppCompatActivity {
         startActivity(Demote);
     }
 
-    /*public void GoToUsersStats(View view){
+    public void GoToUsersStats(View view){
         Intent UsersStats = new Intent(this, UsersStatsActivity.class);
-        UpdateStats("GoToUsersStats");
+        //UpdateStats("GoToUsersStats");
         startActivity(UsersStats);
-    }*/
+    }
 
     /*public void GoToSupportersStats(View view){
         Intent SupportersStats = new Intent(this, SupportersStatsActivity.class);

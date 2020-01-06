@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DeleteUserActivity"></activity>
+        <activity android:name=".UsersStatsActivity"></activity>
+        <activity android:name=".DeleteUserActivity" />
         <activity android:name=".SupporterActivity" />
         <activity android:name=".DemoteActivity" />
         <activity android:name=".AdminActivity" />
