@@ -26,11 +26,11 @@ public class AdminActivity extends AppCompatActivity {
         db= FirebaseFirestore.getInstance();
     }
 
-    /*public void GoToSupportQ(View view){
-        Intent SupportQ = new Intent(this, SQActivity.class);
+    public void GoToSupportQ(View view){
+        Intent SupportQ = new Intent(this, SupporterQueueActivity.class);
         UpdateStats("GoToSupportQ");
         startActivity(SupportQ);
-    }*/
+    }
 
     public void GoToDeleteUser(View view){
         Intent DeleteU = new Intent(this, DeleteUserActivity.class);
