@@ -97,6 +97,7 @@ public class SupporterActivity extends AppCompatActivity {
         else
         {
             //upload image taken to google drive
+
             Toast.makeText(getApplicationContext(), "Picture Uploaded Successfully!", Toast.LENGTH_LONG).show();
         }
     }
