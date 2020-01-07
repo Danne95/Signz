@@ -38,40 +38,8 @@ public class UsersStatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users_stats);
         db=FirebaseFirestore.getInstance();
-        task = db.document("userstats/statsforregular").get();
-        withdrawStats();
-    }
-
-    private void SetPieChart() {
-        pieChart = (PieChart)findViewById(R.id.PieChart1);
-        Description desc = new Description();
-        desc.setText("Statistics for users of access level 0(lowest)");
-        pieChart.setDescription(desc);
-        pieChart.setRotationEnabled(true);
-        pieChart.setHoleRadius(5f);
-        pieChart.setTransparentCircleAlpha(0);
-        //pieChart.setDrawEntryLabels(true);
-        //Data add to entries
-        ArrayList<PieEntry> pieEntries= new ArrayList<>();
-        for(int i=0;i<stats.length;i++){
-            pieEntries.add(new PieEntry(stats[i],statsNames[i]));
-        }
-        //Make data set
-        PieDataSet dataSet = new PieDataSet(pieEntries,"Stats for regular user.");
-        dataSet.setSliceSpace(2);
-        dataSet.setValueTextSize(12);
-        //Adding colors
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.BLUE);
-        colors.add(Color.MAGENTA);
-        dataSet.setColors(colors);
-        //Add legend to chart
-        Legend legend = pieChart.getLegend();
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        //Create piedata object
-        PieData pieData = new PieData(dataSet);
-        pieChart.setData(pieData);
-        pieChart.invalidate();
+        task = db.document("userstats/statsforregular").get();//Retrieves document statsforregular from firestore.
+        withdrawStats();//lister for task.
     }
 
     public void withdrawStats() {
@@ -83,15 +51,47 @@ public class UsersStatsActivity extends AppCompatActivity {
                     if (document.exists()) {
                         for(int i=0;i<statsNames.length;i++) {
                             try {
-                                stats[i] = document.getLong(statsNames[i]).intValue();
+                                stats[i] = document.getLong(statsNames[i]).intValue();//If field exists, returns value to stats[i].
                             } catch (Exception e) {
-                                stats[i]=0;
+                                stats[i]=0;//Field doesn't exists so stats[i]=0.
                             }
                         }
-                        SetPieChart();
+                        SetPieChart();//After making stats, go to function to set up PieChart.
                     }
                 }
             }
         });
+    }
+
+    private void SetPieChart() {
+        pieChart = (PieChart)findViewById(R.id.PieChart1);//find PieChart from layout.
+        Description desc = new Description();
+        desc.setText("Statistics for users of access level 0(lowest)");//setting text to description.
+        //Settings to PieChart
+        pieChart.setDescription(desc);
+        pieChart.setRotationEnabled(true);
+        pieChart.setHoleRadius(5f);
+        pieChart.setTransparentCircleAlpha(0);
+        //Data add to entries
+        ArrayList<PieEntry> pieEntries= new ArrayList<>();
+        for(int i=0;i<stats.length;i++){
+            pieEntries.add(new PieEntry(stats[i],statsNames[i]));
+        }
+        //Make data set
+        PieDataSet dataSet = new PieDataSet(pieEntries,"Stats for regular user.");
+        dataSet.setSliceSpace(2);
+        dataSet.setValueTextSize(12);
+        //Adding colors(if needed more colors, add here)
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(Color.BLUE);
+        colors.add(Color.MAGENTA);
+        dataSet.setColors(colors);
+        //Add legend to chart
+        Legend legend = pieChart.getLegend();
+        legend.setForm(Legend.LegendForm.CIRCLE);
+        //Create PieData object
+        PieData pieData = new PieData(dataSet);
+        pieChart.setData(pieData);
+        pieChart.invalidate();//Draw PieChart
     }
 }
