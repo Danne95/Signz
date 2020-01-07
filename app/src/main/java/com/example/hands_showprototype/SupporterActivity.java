@@ -1,5 +1,6 @@
 package com.example.hands_showprototype;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -9,6 +10,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
@@ -20,9 +22,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 public class SupporterActivity extends AppCompatActivity {
     private TextToSpeech tts;
@@ -79,7 +93,7 @@ public class SupporterActivity extends AppCompatActivity {
                 letterPicked.setText(arrayList.get(i).toString()); // write which letter you picked to upload
                 img1.setImageResource(numberImages[i]); // change the picture as picked by user
                 tts.speak("You Picked: "+arrayList.get(i).toString(), TextToSpeech.QUEUE_FLUSH, null);//reads
-                Toast.makeText(SupporterActivity.this,"You Picked: "+arrayList.get(i).toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(SupporterActivity.this,"You Picked: "+arrayList.get(i).toString(), LENGTH_SHORT).show();
             }
         });
     }
@@ -116,7 +130,41 @@ public class SupporterActivity extends AppCompatActivity {
         {
             //upload image taken to google drive
 
+            //ImageView -> Bitmap -> Bitmap.CompressFormat.JPEG -> byte[] data
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            this.img2.setDrawingCacheEnabled(true);
+            img2.buildDrawingCache();
+            Bitmap bitmap=((BitmapDrawable) img2.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] data = baos.toByteArray();
 
+         /*   storageReference.child("Signs").child(this.letterPicked.getText().toString()).putBytes(data)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(getApplicationContext(),"Image Uploaded Successfully",LENGTH_SHORT).show();
+                            storageReference.child("profileImageUrl").(url).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    if (task.isSuccessful()){
+                                        Toast.makeText(getApplicationContext(),"Image Successfully Uploaded",LENGTH_SHORT).show();
+                                    }
+                                    else{
+
+                                        Toast.makeText(getApplicationContext(),"Image Upload Failed",LENGTH_SHORT).show(); }
+                                }
+                            });
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                    Toast.makeText(getApplicationContext(),"Image Upload Failed",LENGTH_SHORT).show();
+
+                }
+            });*/
 
             tts.speak("Picture Uploaded Successfully!", TextToSpeech.QUEUE_FLUSH, null);//reads
             Toast.makeText(getApplicationContext(), "Picture Uploaded Successfully!", Toast.LENGTH_LONG).show();
