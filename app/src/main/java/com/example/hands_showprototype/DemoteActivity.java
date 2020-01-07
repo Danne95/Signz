@@ -51,10 +51,11 @@ public class DemoteActivity extends AppCompatActivity {
                                 Map<Object, Number> map = new HashMap<>();
                                 map.put("accesslevel", 0);
                                 usersRef.document(document.getId()).set(map, SetOptions.merge());
+                                Toast.makeText(getApplicationContext(), "Access level set to 0.", Toast.LENGTH_LONG).show();
+
                             }
                         }
                     }
-
                 });
             }
         }

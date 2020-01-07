@@ -119,12 +119,9 @@ public class SupporterActivity extends AppCompatActivity {
         else
         {
             //upload image taken to google drive
-<<<<<<< HEAD
             Contents contents = Drive.DriveApi.newDriveContents()
 
             tts.speak("Picture Uploaded Successfully!", TextToSpeech.QUEUE_FLUSH, null);//reads
-=======
->>>>>>> fdd476edd4f274616526dc9813d4a9ef6ce1b2dc
             Toast.makeText(getApplicationContext(), "Picture Uploaded Successfully!", Toast.LENGTH_LONG).show();
         }
     }

@@ -26,11 +26,11 @@ public class AdminActivity extends AppCompatActivity {
         db= FirebaseFirestore.getInstance();
     }
 
-    /*public void GoToSupportQ(View view){
-        Intent SupportQ = new Intent(this, SQActivity.class);
+    public void GoToSupportQ(View view){
+        Intent SupportQ = new Intent(this, SupporterQueueActivity.class);
         UpdateStats("GoToSupportQ");
         startActivity(SupportQ);
-    }*/
+    }
 
     public void GoToDeleteUser(View view){
         Intent DeleteU = new Intent(this, DeleteUserActivity.class);
@@ -44,11 +44,11 @@ public class AdminActivity extends AppCompatActivity {
         startActivity(Demote);
     }
 
-    /*public void GoToUsersStats(View view){
+    public void GoToUsersStats(View view){
         Intent UsersStats = new Intent(this, UsersStatsActivity.class);
         UpdateStats("GoToUsersStats");
         startActivity(UsersStats);
-    }*/
+    }
 
     /*public void GoToSupportersStats(View view){
         Intent SupportersStats = new Intent(this, SupportersStatsActivity.class);
