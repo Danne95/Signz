@@ -4,14 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -19,38 +19,75 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class DeleteUserActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
+    private LinearLayout list;
+    private Task<QuerySnapshot> task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_user);
         db = FirebaseFirestore.getInstance();
+        task = db.collection("users").whereLessThanOrEqualTo("accesslevel",1).get();
+        list = (LinearLayout)findViewById(R.id.insideScroll);
+        querySearch();
     }
 
-    public void DeleteUser(View view){
-        String Email = ((EditText) findViewById(R.id.EmailInput)).getText().toString();
-        // Check that fields are not empty
-        if (TextUtils.isEmpty(Email)) {
-            Toast.makeText(getApplicationContext(), "All fields must be filled.", Toast.LENGTH_LONG).show();
-        }else {
-            if (db != null) {
-                final CollectionReference usersRef = db.collection("users");
-                usersRef.whereEqualTo("email", Email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                usersRef.document(document.getId()).delete();
-                                Toast.makeText(getApplicationContext(), "User Deleted Successfully.", Toast.LENGTH_LONG).show();
-                            }
-                        }
+    private void querySearch() {
+        task.addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        addALinearView(document);
                     }
-
-                });
+                }
             }
-        }
+        });
     }
 
-
-
+    private void addALinearView(QueryDocumentSnapshot doc) {
+        //Params var for all views.
+        RelativeLayout.LayoutParams params;
+        //New line of a pending supporter with settings.
+        RelativeLayout newline = new RelativeLayout(this);
+        params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        newline.setLayoutParams(params);
+        //Making view for email and settings to it.
+        TextView useremail = new TextView(this);
+        useremail.setId(View.generateViewId());
+        useremail.setText(doc.get("email").toString());
+        useremail.setTextSize(20);
+        params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        params.addRule(RelativeLayout.CENTER_VERTICAL);
+        newline.addView(useremail,params);
+        //Making view for email and settings to it.
+        TextView accesslevel = new TextView(this);
+        long alevel = doc.getLong("accesslevel");
+        String alevelString;
+        if(alevel==0){alevelString="Regular(0)";}
+        else{alevelString="Supporter(1)";}
+        accesslevel.setText("Access level: "+alevelString);
+        accesslevel.setTextSize(10);
+        params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        newline.addView(accesslevel,params);
+        //Making decline button and settings to it.
+        ImageButton ApproveButton = new ImageButton(this), DeclineButton = new ImageButton(this);
+        DeclineButton.setId(View.generateViewId());
+        DeclineButton.setImageResource(R.drawable.ic_delete);
+        DeclineButton.setContentDescription(doc.get("uid").toString());
+        DeclineButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                db.collection("users").document(v.getContentDescription().toString()).delete();
+                ((RelativeLayout)v.getParent()).setVisibility(View.GONE);
+            }
+        });
+        params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        newline.addView(DeclineButton,params);
+        //Adding RelativeLayout to our LinearLayout(son of ScrollView).
+        list.addView(newline);
+    }
 }
