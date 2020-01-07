@@ -20,11 +20,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.drive.Contents;
+import com.google.android.gms.drive.Drive;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class SupporterActivity extends AppCompatActivity {
+    private TextToSpeech tts;
     private ListView letters;
     private TextView letterPicked;
     private ImageView img1, img2;
@@ -34,6 +39,15 @@ public class SupporterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supporter);
+
+        tts=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    tts.setLanguage(Locale.US);
+                }
+            }
+        });
 
         //create object of listview
         letters=(ListView)findViewById(R.id.lettersList);
@@ -68,6 +82,7 @@ public class SupporterActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i,long l) {
                 letterPicked.setText(arrayList.get(i).toString()); // write which letter you picked to upload
                 img1.setImageResource(numberImages[i]); // change the picture as picked by user
+                tts.speak("You Picked: "+arrayList.get(i).toString(), TextToSpeech.QUEUE_FLUSH, null);//reads
                 Toast.makeText(SupporterActivity.this,"You Picked: "+arrayList.get(i).toString(),Toast.LENGTH_SHORT).show();
             }
         });
@@ -77,6 +92,7 @@ public class SupporterActivity extends AppCompatActivity {
         // take new picture of user sign
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_DENIED) {
+            tts.speak("Please, grant permission to open camera", TextToSpeech.QUEUE_FLUSH, null);//reads
             Toast txt = Toast.makeText(getApplicationContext(), "Please, grant permission to open camera.", Toast.LENGTH_LONG);
             txt.show();
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 100);
@@ -91,12 +107,21 @@ public class SupporterActivity extends AppCompatActivity {
     }
     public void UploadPicture(View view) {
         if(this.letterPicked.getText().equals("")) // if user didnt choose a specific letter to upload
+        {
+            tts.speak("Pick Sign First!", TextToSpeech.QUEUE_FLUSH, null);//reads
             Toast.makeText(getApplicationContext(), "Pick Sign First!", Toast.LENGTH_LONG).show();
+        }
         else if(!this.isPicTaken) // if image wasnt taken yet
+        {
+            tts.speak("Take Picture First!", TextToSpeech.QUEUE_FLUSH, null);//reads
             Toast.makeText(getApplicationContext(), "Take Picture First!", Toast.LENGTH_LONG).show();
+        }
         else
         {
-            //upload image taken to google drive 
+            //upload image taken to google drive
+            Contents contents = Drive.DriveApi.newDriveContents()
+
+            tts.speak("Picture Uploaded Successfully!", TextToSpeech.QUEUE_FLUSH, null);//reads
             Toast.makeText(getApplicationContext(), "Picture Uploaded Successfully!", Toast.LENGTH_LONG).show();
         }
     }
