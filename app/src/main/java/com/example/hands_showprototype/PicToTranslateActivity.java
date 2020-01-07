@@ -158,6 +158,11 @@ public class PicToTranslateActivity extends AppCompatActivity {
         }
     }
 
+    public void ClearText(View view)
+    {
+        this.translation.setText(""); // clear the text of translation
+    }
+
     public void ReadSentence(View view){
         try {
             String sentence = translation.getText().toString();
