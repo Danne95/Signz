@@ -12,14 +12,14 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/signz_icon"
-        android:logo="@drawable/signz_icon"
         android:label="@string/app_name"
         android:layoutDirection="ltr"
+        android:logo="@drawable/signz_icon"
         android:roundIcon="@drawable/signz_icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-       >
-        <activity android:name=".SupporterQueueActivity"></activity>
+        android:theme="@style/AppTheme">
+        <activity android:name=".SupportersStatsActivity"></activity>
+        <activity android:name=".SupporterQueueActivity" />
         <activity android:name=".UsersStatsActivity" />
         <activity android:name=".DeleteUserActivity" />
         <activity android:name=".SupporterActivity" />

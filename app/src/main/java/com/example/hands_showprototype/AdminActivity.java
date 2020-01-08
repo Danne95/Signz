@@ -50,11 +50,11 @@ public class AdminActivity extends AppCompatActivity {
         startActivity(UsersStats);
     }
 
-    /*public void GoToSupportersStats(View view){
+    public void GoToSupportersStats(View view){
         Intent SupportersStats = new Intent(this, SupportersStatsActivity.class);
         UpdateStats("GoToSupportersStats");
         startActivity(SupportersStats);
-    }*/
+    }
 
     /*public void GoToAdminsStats(View view){
         Intent AdminsStats = new Intent(this, AdminsStatsActivity.class);
