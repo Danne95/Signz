@@ -30,8 +30,8 @@ public class UsersStatsActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private Task<DocumentSnapshot> task;
     private PieChart pieChart;
-    private int[] stats=new int[2];
-    private String[] statsNames={"GoToTranslate","GoToLearn"};
+    private int[] stats=new int[3];
+    private String[] statsNames={"GoToTranslate","GoToLearn","GoToSignIn"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +79,13 @@ public class UsersStatsActivity extends AppCompatActivity {
         }
         //Make data set
         PieDataSet dataSet = new PieDataSet(pieEntries,"Stats for regular user.");
-        dataSet.setSliceSpace(2);
+        dataSet.setSliceSpace(3);
         dataSet.setValueTextSize(12);
         //Adding colors(if needed more colors, add here)
         ArrayList<Integer> colors = new ArrayList<>();
         colors.add(Color.BLUE);
         colors.add(Color.MAGENTA);
+        colors.add(Color.YELLOW);
         dataSet.setColors(colors);
         //Add legend to chart
         Legend legend = pieChart.getLegend();

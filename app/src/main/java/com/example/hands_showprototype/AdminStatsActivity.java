@@ -60,7 +60,7 @@ public class AdminStatsActivity extends AppCompatActivity {
     private void SetPieChart() {
         pieChart = (PieChart)findViewById(R.id.PieChart1);//find PieChart from layout.
         Description desc = new Description();
-        desc.setText("Statistics for users of access level 0(lowest)");//setting text to description.
+        desc.setText("Statistics for users of access level 2(Highest)");//setting text to description.
         //Settings to PieChart
         pieChart.setDescription(desc);
         pieChart.setRotationEnabled(true);
