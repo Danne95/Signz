@@ -56,11 +56,11 @@ public class AdminActivity extends AppCompatActivity {
         startActivity(SupportersStats);
     }
 
-    /*public void GoToAdminsStats(View view){
-        Intent AdminsStats = new Intent(this, AdminsStatsActivity.class);
+    public void GoToAdminsStats(View view){
+        Intent AdminsStats = new Intent(this, AdminStatsActivity.class);
         UpdateStats("GoToAdminsStats");
         startActivity(AdminsStats);
-    }*/
+    }
 
     public void UpdateStats(final String funcname){
         if (mAuth.getCurrentUser() != null) {

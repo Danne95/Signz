@@ -18,7 +18,8 @@
         android:roundIcon="@drawable/signz_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SupportersStatsActivity"></activity>
+        <activity android:name=".AdminStatsActivity"></activity>
+        <activity android:name=".SupportersStatsActivity" />
         <activity android:name=".SupporterQueueActivity" />
         <activity android:name=".UsersStatsActivity" />
         <activity android:name=".DeleteUserActivity" />
