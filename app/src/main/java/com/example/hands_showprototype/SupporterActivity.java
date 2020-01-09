@@ -22,18 +22,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -83,9 +78,9 @@ public class SupporterActivity extends AppCompatActivity {
 //assign adapter to listview
         letters.setAdapter(arrayAdapter);
 
-        this.letterPicked=findViewById(R.id.textView14);
-        this.img1=findViewById(R.id.imageView2);
-        this.img2=findViewById(R.id.imageView3);
+        this.letterPicked=findViewById(R.id.displayLetter);
+        this.img1=findViewById(R.id.signImg);
+        this.img2=findViewById(R.id.picImg);
         this.isPicTaken=false;
 
 //add listener to listview
