@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -44,6 +45,7 @@ public class SupporterActivity extends AppCompatActivity {
     private TextView letterPicked;
     private ImageView img1, img2;
     private boolean isPicTaken;
+    private UploadTask task;
     private int[] numberImages={R.drawable.h,R.drawable.e,R.drawable.l,R.drawable.o,R.drawable.w,R.drawable.r,R.drawable.d};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,20 +133,34 @@ public class SupporterActivity extends AppCompatActivity {
             //upload image taken to google drive
 
             //ImageView -> Bitmap -> Bitmap.CompressFormat.JPEG -> byte[] data
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
             this.img2.setDrawingCacheEnabled(true);
             img2.buildDrawingCache();
             Bitmap bitmap=((BitmapDrawable) img2.getDrawable()).getBitmap();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] data = baos.toByteArray();
-
-         /*   storageReference.child("Signs").child(this.letterPicked.getText().toString()).putBytes(data)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(getApplicationContext(),"Image Uploaded Successfully",LENGTH_SHORT).show();
-                            storageReference.child("profileImageUrl").(url).addOnCompleteListener(new OnCompleteListener<Void>() {
+            final String c=String.valueOf((letterPicked.getText().toString()).charAt(letterPicked.getText().toString().length()-1));
+            task = storageReference.child("Signs/"+c+"/"+"0.jpg").putBytes(data);
+            task.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    Toast.makeText(getApplicationContext(),"Image Upload Failed",LENGTH_SHORT).show();
+                    // Handle unsuccessful uploads
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(getApplicationContext(),"Image Uploaded Successfully",LENGTH_SHORT).show();
+                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                    // ...
+                }
+            });
+            /*task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(getApplicationContext(),"Image Uploaded Successfully",LENGTH_SHORT).show();
+                    storageReference.child("profileImageUrl").(url).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
 
@@ -157,17 +173,14 @@ public class SupporterActivity extends AppCompatActivity {
                                 }
                             });
                         }
-                    }).addOnFailureListener(new OnFailureListener() {
+            }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-
                     Toast.makeText(getApplicationContext(),"Image Upload Failed",LENGTH_SHORT).show();
-
                 }
-            });*/
-
+            });
             tts.speak("Picture Uploaded Successfully!", TextToSpeech.QUEUE_FLUSH, null);//reads
-            Toast.makeText(getApplicationContext(), "Picture Uploaded Successfully!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Picture Uploaded Successfully!", Toast.LENGTH_LONG).show();*/
         }
     }
         @Override

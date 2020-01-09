@@ -130,10 +130,22 @@ public class PicToTranslateActivity extends AppCompatActivity {
                             tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);//reads letter
                         }
                         try {
-                            if(text.equals("SPACE"))
+                            if(text.equals("SPACE")) {
                                 translation.setText(translation.getText() + " "); // update sentence translation
-                            else if(text.equals("DELETE"))
-                                translation.setText(translation.getText().subSequence(0,translation.getText().length()-1)); // update sentence translation
+                                Toast txt = Toast.makeText(getApplicationContext(), "Space added.", Toast.LENGTH_SHORT);
+                                txt.show();
+                            }
+                            else if(text.equals("DELETE")) {
+                                if(translation.length()!=0){
+                                    Toast txt = Toast.makeText(getApplicationContext(), "The sentence is empty!", Toast.LENGTH_SHORT);
+                                    txt.show();
+                                }
+                                else {
+                                    translation.setText(translation.getText().subSequence(0, translation.getText().length() - 1)); // update sentence translation
+                                    Toast txt = Toast.makeText(getApplicationContext(), "Last letter deleted.", Toast.LENGTH_SHORT);
+                                    txt.show();
+                                }
+                            }
                             else
                                 translation.setText(translation.getText() + text); // update sentence translation
                         }
