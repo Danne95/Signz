@@ -22,15 +22,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-<<<<<<< HEAD
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-=======
->>>>>>> ecae795d538ecbfe812171798f18e448adde58f3
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -47,7 +45,7 @@ public class SupporterActivity extends AppCompatActivity {
     private TextView letterPicked;
     private ImageView img1, img2;
     private boolean isPicTaken;
-    private UploadTask task;
+    private UploadTask uploadTask;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private int[] numberImages = {R.drawable.h, R.drawable.e, R.drawable.l, R.drawable.o, R.drawable.w, R.drawable.r, R.drawable.d};
@@ -92,17 +90,17 @@ public class SupporterActivity extends AppCompatActivity {
 //assign adapter to listview
         letters.setAdapter(arrayAdapter);
 
-<<<<<<< HEAD
-        this.letterPicked = findViewById(R.id.textView14);
-        this.img1 = findViewById(R.id.imageView2);
-        this.img2 = findViewById(R.id.imageView3);
+
+        this.letterPicked = findViewById(R.id.displayLetter);
+        this.img1 = findViewById(R.id.signImg);
+        this.img2 = findViewById(R.id.picImg);
         this.isPicTaken = false;
-=======
-        this.letterPicked=findViewById(R.id.displayLetter);
-        this.img1=findViewById(R.id.signImg);
-        this.img2=findViewById(R.id.picImg);
-        this.isPicTaken=false;
->>>>>>> ecae795d538ecbfe812171798f18e448adde58f3
+
+        this.letterPicked = findViewById(R.id.displayLetter);
+        this.img1 = findViewById(R.id.signImg);
+        this.img2 = findViewById(R.id.picImg);
+        this.isPicTaken = false;
+
 
 //add listener to listview
         letters.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -152,64 +150,81 @@ public class SupporterActivity extends AppCompatActivity {
             Bitmap bitmap = ((BitmapDrawable) img2.getDrawable()).getBitmap();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] data = baos.toByteArray();
+            final byte[] data = baos.toByteArray();
             final String c = String.valueOf((letterPicked.getText().toString()).charAt(letterPicked.getText().toString().length() - 1));
 
 
             if (mAuth.getCurrentUser() != null) {
-                db.collection("users").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                db.collection("users").document("letterscounter").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
-                        db.collection("userstats").document("statsforregular").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        db.collection("userstats").document("letterscounter").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
                                     DocumentSnapshot document = task.getResult();
                                     if (document.exists()) {
                                         try {
-                                            int count = document.getLong("letterCount").intValue();
-                                            db.collection("userstats").document("statsforregular").update("letterCount", count + 1);
-                                        } catch (Exception e) {
-                                            db.collection("userstats").document("statsforregular").update("letterCount", 1);
+                                            int count = Integer.valueOf(document.get(c).toString())+1;
+                                            db.collection("userstats").document("letterscounter").update(c, count);
+                                            uploadTask =storageReference.child("Signs/"+c+"/"+count+".jpg").putBytes(data); // name of directory to upload the image to
+                                            uploadTask.addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure (@NonNull Exception exception){
+                                                    tts.speak("Image Upload Failed", TextToSpeech.QUEUE_FLUSH, null);//reads
+                                                    Toast.makeText(getApplicationContext(), "Image Upload Failed", LENGTH_SHORT).show();
+                                                    // Handle unsuccessful uploads
+                                                }
+                                            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                @Override
+                                                public void onSuccess (UploadTask.TaskSnapshot taskSnapshot){
+                                                    tts.speak("Image Uploaded Successfully", TextToSpeech.QUEUE_FLUSH, null);//reads
+                                                    Toast.makeText(getApplicationContext(), "Image Uploaded Successfully", LENGTH_SHORT).show();
+                                                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                                                }
+                                            });
+
+                                        } catch (Exception e) { // if sign counter doesnt exist yet in DB
+                                            db.collection("userstats").document("letterscounter").update(c, 1);
+                                            uploadTask =storageReference.child("Signs/"+c+"/1.jpg").putBytes(data); // name of directory to upload the image to
+                                            uploadTask.addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure (@NonNull Exception exception){
+                                                    tts.speak("Image Upload Failed", TextToSpeech.QUEUE_FLUSH, null);//reads
+                                                    Toast.makeText(getApplicationContext(), "Image Upload Failed", LENGTH_SHORT).show();
+                                                    // Handle unsuccessful uploads
+                                                }
+                                            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                @Override
+                                                public void onSuccess (UploadTask.TaskSnapshot taskSnapshot){
+                                                    tts.speak("Image Uploaded Successfully", TextToSpeech.QUEUE_FLUSH, null);//reads
+                                                    Toast.makeText(getApplicationContext(), "Image Uploaded Successfully", LENGTH_SHORT).show();
+                                                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                                                }
+                                            });
                                         }
                                     }
                                 }
                             }
                         });
                     }
-
-                    task =storageReference.child("Signs/"+c+"/"+"0.jpg").
-
-                    putBytes(data); // name of directory to upload the image to
-            task.addOnFailureListener(new
-
-                    OnFailureListener() {
-                        @Override
-                        public void onFailure (@NonNull Exception exception){
-                            Toast.makeText(getApplicationContext(), "Image Upload Failed", LENGTH_SHORT).show();
-                            // Handle unsuccessful uploads
-                        }
-                    }).
-
-                    addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess (UploadTask.TaskSnapshot taskSnapshot){
-                            Toast.makeText(getApplicationContext(), "Image Uploaded Successfully", LENGTH_SHORT).show();
-                            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                        }
-                    });
-                }
+                });
             }
-            @Override
-            protected void onActivityResult ( int requestCode, int resultCode, @Nullable Intent data)
-            {
-                super.onActivityResult(requestCode, resultCode, data);
-                if (requestCode == 101 && resultCode == RESULT_OK) {
-                    Bundle extras = data.getExtras();
-                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    this.img2.setImageBitmap(imageBitmap); // update photo of user and show it
-                    this.isPicTaken = true;
-                } else return;
-            }
+
+
         }
+    }
+    @Override
+    protected void onActivityResult (int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 101 && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            this.img2.setImageBitmap(imageBitmap); // update photo of user and show it
+            this.isPicTaken = true;
+        } else return;
+    }
+}
+
