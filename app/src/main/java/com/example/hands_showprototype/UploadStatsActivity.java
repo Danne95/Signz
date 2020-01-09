@@ -1,40 +1,38 @@
 package com.example.hands_showprototype;
 
-import android.os.Bundle;
-
 import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.DocumentSnapshot;
-
 import androidx.appcompat.app.AppCompatActivity;
-import java.util.ArrayList;
 
 import android.graphics.Color;
+import android.os.Bundle;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-public class UsersStatsActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class UploadStatsActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private Task<DocumentSnapshot> task;
     private PieChart pieChart;
-    private int[] stats=new int[3];
-    private String[] statsNames={"GoToTranslate","GoToLearn","GoToSignIn"};
+    private int[] stats=new int[9];
+    private String[] statsNames={"H","E","L","O","W","R","D","SPACE","DELETE"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_users_stats);
+        setContentView(R.layout.activity_upload_stats);
         db=FirebaseFirestore.getInstance();
-        task = db.document("userstats/statsforregular").get();//Retrieves document statsforregular from firestore.
+        task = db.document("userstats/letterscounter").get();//Retrieves document letterscounter from firestore.
         withdrawStats();//lister for task.
     }
 
@@ -62,7 +60,7 @@ public class UsersStatsActivity extends AppCompatActivity {
     private void SetPieChart() {
         pieChart = (PieChart)findViewById(R.id.PieChart1);//find PieChart from layout.
         Description desc = new Description();
-        desc.setText("Statistics for users of access level 0(lowest)");//setting text to description.
+        desc.setText("Statistics of uploads by letters.");//setting text to description.
         //Settings to PieChart
         pieChart.setDescription(desc);
         pieChart.setRotationEnabled(true);
@@ -74,7 +72,7 @@ public class UsersStatsActivity extends AppCompatActivity {
             pieEntries.add(new PieEntry(stats[i],statsNames[i]));
         }
         //Make data set
-        PieDataSet dataSet = new PieDataSet(pieEntries,"Stats for regular user.");
+        PieDataSet dataSet = new PieDataSet(pieEntries,"Letters upload.");
         dataSet.setSliceSpace(3);
         dataSet.setValueTextSize(12);
         //Adding colors(if needed more colors, add here)
@@ -82,6 +80,12 @@ public class UsersStatsActivity extends AppCompatActivity {
         colors.add(Color.BLUE);
         colors.add(Color.MAGENTA);
         colors.add(Color.YELLOW);
+        colors.add(Color.WHITE);
+        colors.add(Color.BLACK);
+        colors.add(Color.CYAN);
+        colors.add(Color.GRAY);
+        colors.add(Color.GREEN);
+        colors.add(Color.RED);
         dataSet.setColors(colors);
         //Add legend to chart
         Legend legend = pieChart.getLegend();

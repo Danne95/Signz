@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,27 +30,43 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.ml.common.FirebaseMLException;
+import com.google.firebase.ml.vision.FirebaseVision;
+import com.google.firebase.ml.vision.automl.FirebaseAutoMLLocalModel;
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
+import com.google.firebase.ml.vision.label.FirebaseVisionOnDeviceAutoMLImageLabelerOptions;
+import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class SupporterActivity extends AppCompatActivity {
+    //vars
+    private FirebaseVisionImageLabeler labeler;
+    private List<FirebaseVisionImageLabel> Labels;
+    private FirebaseAutoMLLocalModel localModel;
     private TextToSpeech tts;
     private ListView letters;
     private TextView letterPicked;
     private ImageView img1, img2;
     private boolean isPicTaken;
+    private boolean isPicGood;
+    private boolean toApprove;
+    private boolean existsInLabels;
     private UploadTask uploadTask;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private int[] numberImages = {R.drawable.h, R.drawable.e, R.drawable.l, R.drawable.o, R.drawable.w, R.drawable.r, R.drawable.d};
-
+    //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +75,9 @@ public class SupporterActivity extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
-
+        localModel = new FirebaseAutoMLLocalModel.Builder()
+                .setAssetFilePath("manifest.json")
+                .build();
         tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -130,10 +149,19 @@ public class SupporterActivity extends AppCompatActivity {
             if (imageTakeIntent.resolveActivity(getPackageManager()) != null)
                 startActivityForResult(imageTakeIntent, 101);
         }
+        try {
+            FirebaseVisionOnDeviceAutoMLImageLabelerOptions options =
+                    new FirebaseVisionOnDeviceAutoMLImageLabelerOptions.Builder(localModel)
+                            .setConfidenceThreshold(0.3f)  // Evaluate your model in the Firebase console
+                            // to determine an appropriate value.
+                            .build();
+            labeler = FirebaseVision.getInstance().getOnDeviceAutoMLImageLabeler(options);
+        } catch (FirebaseMLException e) {
+            //...
+        }
     }
-
-    public void UploadPicture(View view) {
-        if (this.letterPicked.getText().equals("")) // if user didnt choose a specific letter to upload
+    public void UploadPhaseOne(View view) {
+        if (this.letterPicked.getText().equals("")) // if user didn't choose a specific letter to upload
         {
             tts.speak("Pick Sign First!", TextToSpeech.QUEUE_FLUSH, null);//reads
             Toast.makeText(getApplicationContext(), "Pick Sign First!", Toast.LENGTH_LONG).show();
@@ -141,80 +169,103 @@ public class SupporterActivity extends AppCompatActivity {
         {
             tts.speak("Take Picture First!", TextToSpeech.QUEUE_FLUSH, null);//reads
             Toast.makeText(getApplicationContext(), "Take Picture First!", Toast.LENGTH_LONG).show();
-        } else {//upload image taken to google drive
-
-            //ImageView -> Bitmap -> Bitmap.CompressFormat.JPEG -> byte[] data
-            final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-            this.img2.setDrawingCacheEnabled(true);
-            img2.buildDrawingCache();
-            Bitmap bitmap = ((BitmapDrawable) img2.getDrawable()).getBitmap();
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            final byte[] data = baos.toByteArray();
-            final String c = String.valueOf((letterPicked.getText().toString()).charAt(letterPicked.getText().toString().length() - 1));
-
-
-            if (mAuth.getCurrentUser() != null) {
-                db.collection("users").document("letterscounter").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-
-                        db.collection("userstats").document("letterscounter").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    if (document.exists()) {
-                                        try {
-                                            int count = Integer.valueOf(document.get(c).toString())+1;
-                                            db.collection("userstats").document("letterscounter").update(c, count);
-                                            uploadTask =storageReference.child("Signs/"+c+"/"+count+".jpg").putBytes(data); // name of directory to upload the image to
-                                            uploadTask.addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure (@NonNull Exception exception){
-                                                    tts.speak("Image Upload Failed", TextToSpeech.QUEUE_FLUSH, null);//reads
-                                                    Toast.makeText(getApplicationContext(), "Image Upload Failed", LENGTH_SHORT).show();
-                                                    // Handle unsuccessful uploads
-                                                }
-                                            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                                @Override
-                                                public void onSuccess (UploadTask.TaskSnapshot taskSnapshot){
-                                                    tts.speak("Image Uploaded Successfully", TextToSpeech.QUEUE_FLUSH, null);//reads
-                                                    Toast.makeText(getApplicationContext(), "Image Uploaded Successfully", LENGTH_SHORT).show();
-                                                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                                                }
-                                            });
-
-                                        } catch (Exception e) { // if sign counter doesnt exist yet in DB
-                                            db.collection("userstats").document("letterscounter").update(c, 1);
-                                            uploadTask =storageReference.child("Signs/"+c+"/1.jpg").putBytes(data); // name of directory to upload the image to
-                                            uploadTask.addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure (@NonNull Exception exception){
-                                                    tts.speak("Image Upload Failed", TextToSpeech.QUEUE_FLUSH, null);//reads
-                                                    Toast.makeText(getApplicationContext(), "Image Upload Failed", LENGTH_SHORT).show();
-                                                    // Handle unsuccessful uploads
-                                                }
-                                            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                                @Override
-                                                public void onSuccess (UploadTask.TaskSnapshot taskSnapshot){
-                                                    tts.speak("Image Uploaded Successfully", TextToSpeech.QUEUE_FLUSH, null);//reads
-                                                    Toast.makeText(getApplicationContext(), "Image Uploaded Successfully", LENGTH_SHORT).show();
-                                                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                                                }
-                                            });
-                                        }
+        } else {
+            if (isPicGood) {
+                toApprove=!(Labels.get(0).toString()==letterPicked.getText().toString());
+                if(toApprove) {
+                    for (int i = 0; i < Labels.size(); i++) {
+                        if (Labels.get(i).toString() == letterPicked.getText().toString()) {
+                            existsInLabels = true;
+                        } else existsInLabels = false;
+                    }
+                }
+                else existsInLabels = true;
+                if (existsInLabels) {
+                    final String c = String.valueOf((letterPicked.getText().toString()).charAt(letterPicked.getText().toString().length() - 1));
+                    Task<DocumentSnapshot> taskdoc = db.collection("userstats").document("letterscounter").get();
+                    taskdoc.addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                final DocumentSnapshot document = task.getResult();
+                                String path = c;
+                                if (toApprove) {
+                                    path += "/toApprove";
+                                }
+                                if (document.exists()) {
+                                    int count = 0;
+                                    try {
+                                        count = document.getLong(c).intValue();
+                                    } catch (Exception e) { // if sign counter doesnt exist yet in DB
+                                        count = 0;
                                     }
+                                    count++;
+                                    db.collection("userstats").document("letterscounter").update(c, count);
+                                    UploadPicture(path, count, document);
                                 }
                             }
-                        });
-                    }
-                });
+                        }
+                    });
+                } else {
+                    tts.speak("Your picture probably doesn't match the sign", TextToSpeech.QUEUE_FLUSH, null);//reads
+                    Toast.makeText(getApplicationContext(), "Your picture probably doesn't match the sign.", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                tts.speak("Your picture isn't good enough", TextToSpeech.QUEUE_FLUSH, null);//reads
+                Toast.makeText(getApplicationContext(), "Your picture isn't good enough.", Toast.LENGTH_LONG).show();
             }
-
-
         }
     }
+    private void UploadPicture(final String c,final int count,final DocumentSnapshot document) {
+        //ImageView -> Bitmap -> Bitmap.CompressFormat.JPEG -> byte[] data
+        final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        img2.setDrawingCacheEnabled(true);
+        img2.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) img2.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        final byte[] data = baos.toByteArray();
+        uploadTask = storageReference.child("Signs/" + c + "/" + count + ".jpg").putBytes(data); // name of directory to upload the image to
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                db.collection("userstats").document("letterscounter").update(c, document.getLong(c).intValue() - 1);
+                tts.speak("Image Upload Failed", TextToSpeech.QUEUE_FLUSH, null);//reads
+                Toast.makeText(getApplicationContext(), "Image Upload Failed", LENGTH_SHORT).show();
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                tts.speak("Image Uploaded Successfully", TextToSpeech.QUEUE_FLUSH, null);//reads
+                Toast.makeText(getApplicationContext(), "Image Uploaded Successfully", LENGTH_SHORT).show();
+                isPicTaken = false;
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+            }
+        });
+    }
+
+    private void WhereToUpload(Bitmap img){
+        Task<List<FirebaseVisionImageLabel>> task = labeler.processImage(FirebaseVisionImage.fromBitmap(img));
+        task.addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
+                    @Override
+                    public void onSuccess(List<FirebaseVisionImageLabel> labels) {
+                        Labels=labels;
+                        if (labels.size() == 0)
+                        {
+                            isPicGood=false;
+                        }
+                        else isPicGood = true;
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        isPicGood=false;
+                    }
+                });
+    }
+
     @Override
     protected void onActivityResult (int requestCode, int resultCode, @Nullable Intent data)
     {
@@ -224,6 +275,7 @@ public class SupporterActivity extends AppCompatActivity {
             Bitmap imageBitmap = (Bitmap) extras.get("data");
             this.img2.setImageBitmap(imageBitmap); // update photo of user and show it
             this.isPicTaken = true;
+            WhereToUpload(imageBitmap);
         } else return;
     }
 }

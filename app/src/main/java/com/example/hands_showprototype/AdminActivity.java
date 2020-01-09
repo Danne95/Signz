@@ -62,6 +62,12 @@ public class AdminActivity extends AppCompatActivity {
         startActivity(AdminsStats);
     }
 
+    public void GoToUploadStats(View view){
+        Intent UploadStats = new Intent(this, UploadStatsActivity.class);
+        UpdateStats("GoToUploadStats");
+        startActivity(UploadStats);
+    }
+
     public void UpdateStats(final String funcname){
         if (mAuth.getCurrentUser() != null) {
             db.collection("users").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

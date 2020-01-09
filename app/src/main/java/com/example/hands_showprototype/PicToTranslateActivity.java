@@ -159,7 +159,6 @@ public class PicToTranslateActivity extends AppCompatActivity {
                         return;
                     }
                 });
-
     }
     private void ErrorMsg()
     {
