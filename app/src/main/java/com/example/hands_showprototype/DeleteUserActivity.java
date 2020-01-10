@@ -68,14 +68,13 @@ public class DeleteUserActivity extends AppCompatActivity {
         if(alevel==0){alevelString="Regular(0)";}
         else{alevelString="Supporter(1)";}
         accesslevel.setText("Access level: "+alevelString);
-        accesslevel.setTextSize(10);
+        accesslevel.setTextSize(12);
         params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         newline.addView(accesslevel,params);
         //Making decline button and settings to it.
-        ImageButton ApproveButton = new ImageButton(this), DeclineButton = new ImageButton(this);
-        DeclineButton.setId(View.generateViewId());
+        ImageButton DeclineButton = new ImageButton(this);
         DeclineButton.setImageResource(R.drawable.ic_delete);
         DeclineButton.setContentDescription(doc.get("uid").toString());
         DeclineButton.setOnClickListener(new View.OnClickListener() {

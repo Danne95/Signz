@@ -44,8 +44,10 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -170,18 +172,19 @@ public class SupporterActivity extends AppCompatActivity {
             tts.speak("Take Picture First!", TextToSpeech.QUEUE_FLUSH, null);//reads
             Toast.makeText(getApplicationContext(), "Take Picture First!", Toast.LENGTH_LONG).show();
         } else {
+            final String c = String.valueOf((letterPicked.getText().toString()).charAt(letterPicked.getText().toString().length() - 1));
             if (isPicGood) {
-                toApprove=!(Labels.get(0).toString()==letterPicked.getText().toString());
+                if(c.equalsIgnoreCase(Labels.get(0).getText())) toApprove=false;
+                else toApprove=true;
                 if(toApprove) {
                     for (int i = 0; i < Labels.size(); i++) {
-                        if (Labels.get(i).toString() == letterPicked.getText().toString()) {
+                        if (c.equalsIgnoreCase(Labels.get(i).getText())) {
                             existsInLabels = true;
                         } else existsInLabels = false;
                     }
                 }
                 else existsInLabels = true;
                 if (existsInLabels) {
-                    final String c = String.valueOf((letterPicked.getText().toString()).charAt(letterPicked.getText().toString().length() - 1));
                     Task<DocumentSnapshot> taskdoc = db.collection("userstats").document("letterscounter").get();
                     taskdoc.addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -190,7 +193,7 @@ public class SupporterActivity extends AppCompatActivity {
                                 final DocumentSnapshot document = task.getResult();
                                 String path = c;
                                 if (toApprove) {
-                                    path += "/toApprove";
+                                    path= "toApprove/"+path;
                                 }
                                 if (document.exists()) {
                                     int count = 0;
@@ -201,6 +204,7 @@ public class SupporterActivity extends AppCompatActivity {
                                     }
                                     count++;
                                     db.collection("userstats").document("letterscounter").update(c, count);
+                                    UpdatePersonalCounter();
                                     UploadPicture(path, count, document);
                                 }
                             }
@@ -265,7 +269,29 @@ public class SupporterActivity extends AppCompatActivity {
                     }
                 });
     }
-
+    private void UpdatePersonalCounter(){
+        final String c = String.valueOf((letterPicked.getText().toString()).charAt(letterPicked.getText().toString().length() - 1));
+        Task<DocumentSnapshot> taskdoc = db.collection("users").document(mAuth.getUid()).get();
+        taskdoc.addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    final DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Long uploads;
+                        try {
+                            uploads = document.getLong("Uploads." + c);
+                            if (uploads == null) uploads = (long) 0;
+                        } catch (Exception e) { // if sign counter doesnt exist yet in DB
+                            uploads = (long)0;
+                        }
+                        uploads++;
+                        db.collection("users").document(mAuth.getUid()).update("Uploads."+c, uploads);
+                    }
+                }
+            }
+        });
+    }
     @Override
     protected void onActivityResult (int requestCode, int resultCode, @Nullable Intent data)
     {

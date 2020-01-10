@@ -10,7 +10,7 @@
     <FrameLayout
         android:id="@+id/frameLayout2"
         android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_height="135dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,13 +22,14 @@
             android:layout_height="fill_parent"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="0dp"
+            android:scaleType="centerCrop"
             app:srcCompat="@android:drawable/editbox_dropdown_light_frame" />
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_height="135dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout2">
@@ -39,6 +40,7 @@
             android:layout_height="fill_parent"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="0dp"
+            android:scaleType="centerCrop"
             app:srcCompat="@android:drawable/editbox_dropdown_light_frame" />
     </FrameLayout>
 
@@ -95,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="56dp"
         android:text="Your Picture:"
         android:textColor="#070707"
         android:textSize="30sp"

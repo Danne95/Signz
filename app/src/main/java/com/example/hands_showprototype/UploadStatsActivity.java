@@ -58,7 +58,7 @@ public class UploadStatsActivity extends AppCompatActivity {
     }
 
     private void SetPieChart() {
-        pieChart = (PieChart)findViewById(R.id.PieChart1);//find PieChart from layout.
+        pieChart = (PieChart)findViewById(R.id.PieChart);//find PieChart from layout.
         Description desc = new Description();
         desc.setText("Statistics of uploads by letters.");//setting text to description.
         //Settings to PieChart
@@ -81,7 +81,7 @@ public class UploadStatsActivity extends AppCompatActivity {
         colors.add(Color.MAGENTA);
         colors.add(Color.YELLOW);
         colors.add(Color.WHITE);
-        colors.add(Color.BLACK);
+        colors.add(Color.LTGRAY);
         colors.add(Color.CYAN);
         colors.add(Color.GRAY);
         colors.add(Color.GREEN);

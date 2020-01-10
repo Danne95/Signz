@@ -58,7 +58,7 @@ public class AdminStatsActivity extends AppCompatActivity {
     }
 
     private void SetPieChart() {
-        pieChart = (PieChart)findViewById(R.id.PieChart1);//find PieChart from layout.
+        pieChart = (PieChart)findViewById(R.id.PieChart);//find PieChart from layout.
         Description desc = new Description();
         desc.setText("Statistics for users of access level 2(Highest)");//setting text to description.
         //Settings to PieChart
@@ -73,7 +73,7 @@ public class AdminStatsActivity extends AppCompatActivity {
         }
         //Make data set
         PieDataSet dataSet = new PieDataSet(pieEntries,"Stats for admin user.");
-        dataSet.setSliceSpace(9);
+        dataSet.setSliceSpace(3);
         dataSet.setValueTextSize(12);
         //Adding colors(if needed more colors, add here)
         ArrayList<Integer> colors = new ArrayList<>();

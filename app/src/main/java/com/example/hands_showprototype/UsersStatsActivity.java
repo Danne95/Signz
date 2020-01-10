@@ -60,7 +60,7 @@ public class UsersStatsActivity extends AppCompatActivity {
     }
 
     private void SetPieChart() {
-        pieChart = (PieChart)findViewById(R.id.PieChart1);//find PieChart from layout.
+        pieChart = (PieChart)findViewById(R.id.PieChart);//find PieChart from layout.
         Description desc = new Description();
         desc.setText("Statistics for users of access level 0(lowest)");//setting text to description.
         //Settings to PieChart
