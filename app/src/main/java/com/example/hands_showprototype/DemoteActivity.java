@@ -38,7 +38,6 @@ public class DemoteActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private LinearLayout list;
     private Task<QuerySnapshot> task;
-    //private int[] stats=new int[9];
     private String[] statsNames={"H","E","L","O","W","R","D","SPACE","DELETE"};
     private int[] stats=new int[9];
     private int Uploads;
@@ -87,7 +86,7 @@ public class DemoteActivity extends AppCompatActivity {
         makeStatsPerUser(uid,true);
     }
     private void makeStatsPerUser(final String uid, final boolean drawChart){
-        Task<DocumentSnapshot> doctask=db.collection("users").document(uid).get();
+       final Task<DocumentSnapshot> doctask=db.collection("users").document(uid).get();
         doctask.addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -98,7 +97,7 @@ public class DemoteActivity extends AppCompatActivity {
                         for(int i=0;i<9;i++){
                             try{
                                 stats[i]=document.getLong("Uploads."+statsNames[i]).intValue();
-                            }catch (Exception e){
+                            }catch ( Exception e){
                                 stats[i]=0;
                             }
                             Uploads+=stats[i];
@@ -115,9 +114,9 @@ public class DemoteActivity extends AppCompatActivity {
                             pieChart.setTransparentCircleAlpha(0);
                             //Data add to entries
                             ArrayList<PieEntry> pieEntries= new ArrayList<>();
-                            for(int i=0;i<stats.length;i++){
+                            for(int i=0;i<stats.length;i++)
                                 pieEntries.add(new PieEntry(stats[i],statsNames[i]));
-                            }
+
                             //Make data set
                             PieDataSet dataSet = new PieDataSet(pieEntries,"Uploads of user.");
                             dataSet.setSliceSpace(3);
