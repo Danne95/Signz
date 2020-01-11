@@ -136,14 +136,11 @@ public class PicToTranslateActivity extends AppCompatActivity {
                                 txt.show();
                             }
                             else if(text.equals("DELETE")) {
-                                if(translation.length()!=0){
-                                    Toast txt = Toast.makeText(getApplicationContext(), "The sentence is empty!", Toast.LENGTH_SHORT);
-                                    txt.show();
-                                }
+                                if(translation.length()==0)
+                                    Toast.makeText(getApplicationContext(), "The sentence is empty!", Toast.LENGTH_SHORT).show();
                                 else {
                                     translation.setText(translation.getText().subSequence(0, translation.getText().length() - 1)); // update sentence translation
-                                    Toast txt = Toast.makeText(getApplicationContext(), "Last letter deleted.", Toast.LENGTH_SHORT);
-                                    txt.show();
+                                    Toast.makeText(getApplicationContext(), "Last letter deleted.", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             else

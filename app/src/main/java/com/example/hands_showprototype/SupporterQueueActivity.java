@@ -68,7 +68,7 @@ public class SupporterQueueActivity extends AppCompatActivity {
             public void onClick(View v) {
                 db.collection("users").document(v.getContentDescription().toString()).update("pendingsupport",false);
                 db.collection("users").document(v.getContentDescription().toString()).update("accesslevel",0);
-                ((LinearLayout)v.getParent()).setVisibility(View.GONE);
+                ((RelativeLayout)v.getParent()).setVisibility(View.GONE);
             }
         });
         params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);

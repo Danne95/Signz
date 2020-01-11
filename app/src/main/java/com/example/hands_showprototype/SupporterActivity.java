@@ -60,10 +60,7 @@ public class SupporterActivity extends AppCompatActivity {
     private ListView letters;
     private TextView letterPicked;
     private ImageView img1, img2;
-    private boolean isPicTaken;
-    private boolean isPicGood;
-    private boolean toApprove;
-    private boolean existsInLabels;
+    private boolean isPicTaken,isPicGood,toApprove,existsInLabels;
     private UploadTask uploadTask;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
@@ -206,6 +203,9 @@ public class SupporterActivity extends AppCompatActivity {
                                     db.collection("userstats").document("letterscounter").update(c, count);
                                     UpdatePersonalCounter();
                                     UploadPicture(path, count, document);
+
+                                    tts.speak("The picture will be reexamined by an admin.", TextToSpeech.QUEUE_FLUSH, null);//reads
+                                    Toast.makeText(getApplicationContext(), "The picture will be reexamined by an admin.", Toast.LENGTH_LONG).show();
                                 }
                             }
                         }
@@ -223,12 +223,14 @@ public class SupporterActivity extends AppCompatActivity {
     private void UploadPicture(final String c,final int count,final DocumentSnapshot document) {
         //ImageView -> Bitmap -> Bitmap.CompressFormat.JPEG -> byte[] data
         final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+
         img2.setDrawingCacheEnabled(true);
         img2.buildDrawingCache();
         Bitmap bitmap = ((BitmapDrawable) img2.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         final byte[] data = baos.toByteArray();
+
         uploadTask = storageReference.child("Signs/" + c + "/" + count + ".jpg").putBytes(data); // name of directory to upload the image to
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override

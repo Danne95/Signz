@@ -68,6 +68,13 @@ public class AdminActivity extends AppCompatActivity {
         startActivity(UploadStats);
     }
 
+    public void GoToPhotosQueue(View view){
+        Intent imgQ = new Intent(this, PhotosQueueActivity.class);
+        UpdateStats("GoToPhotosQueue");
+        startActivity(imgQ);
+    }
+
+
     public void UpdateStats(final String funcname){
         if (mAuth.getCurrentUser() != null) {
             db.collection("users").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
