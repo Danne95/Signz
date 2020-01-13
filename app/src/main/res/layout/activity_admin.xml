@@ -38,6 +38,13 @@
         android:text="Delete User" />
 
     <Button
+        android:id="@+id/imgQueue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="GoToPhotosQueue"
+        android:text="Photos Queue" />
+
+    <Button
         android:id="@+id/UsStats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,12 +72,5 @@
         android:layout_height="wrap_content"
         android:onClick="GoToUploadStats"
         android:text="Letter Upload Stats" />
-
-    <Button
-        android:id="@+id/imgQueue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="GoToPhotosQueue"
-        android:text="Photos Queue" />
 
 </LinearLayout>

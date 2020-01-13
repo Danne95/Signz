@@ -71,7 +71,9 @@ public class UsersStatsActivity extends AppCompatActivity {
         //Data add to entries
         ArrayList<PieEntry> pieEntries= new ArrayList<>();
         for(int i=0;i<stats.length;i++){
-            pieEntries.add(new PieEntry(stats[i],statsNames[i]));
+            if(stats[i]!=0) {
+                pieEntries.add(new PieEntry(stats[i], statsNames[i]));
+            }
         }
         //Make data set
         PieDataSet dataSet = new PieDataSet(pieEntries,"Stats for regular user.");

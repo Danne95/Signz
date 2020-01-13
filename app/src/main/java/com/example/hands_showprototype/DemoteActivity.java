@@ -2,12 +2,17 @@ package com.example.hands_showprototype;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -50,10 +55,12 @@ public class DemoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_demote);
         //Popup init
         myDialog = new Dialog(this);
-        myDialog.setContentView(R.layout.popup_pie_chart);
         //PieChart find
         View layout = getLayoutInflater().inflate(R.layout.popup_pie_chart,null);
-        pieChart = layout.findViewById(R.id.PieChartPopUp);
+        //myDialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        //myDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        myDialog.setContentView(layout);
+        pieChart = (PieChart)layout.findViewById(R.id.PieChartPopUp);
         //db init
         db=FirebaseFirestore.getInstance();
         task = db.collection("users").whereEqualTo("accesslevel", 1).get();
@@ -106,19 +113,20 @@ public class DemoteActivity extends AppCompatActivity {
                         else{
                             //Create chart here.
                             Description desc = new Description();
-                            desc.setText("Statistics of uploads for selected user");//setting text to description.
+                            desc.setText("Statistics of uploads for "+document.get("email").toString()+".");//setting text to description.
                             //Settings to PieChart
                             pieChart.setDescription(desc);
                             pieChart.setRotationEnabled(true);
                             pieChart.setHoleRadius(5f);
                             pieChart.setTransparentCircleAlpha(0);
+                            pieChart.setBackgroundColor(Color.LTGRAY-500);
                             //Data add to entries
                             ArrayList<PieEntry> pieEntries= new ArrayList<>();
                             for(int i=0;i<stats.length;i++)
-                                pieEntries.add(new PieEntry(stats[i],statsNames[i]));
-
+                                if(stats[i]!=0)
+                                    pieEntries.add(new PieEntry(stats[i],statsNames[i]));
                             //Make data set
-                            PieDataSet dataSet = new PieDataSet(pieEntries,"Uploads of user.");
+                            PieDataSet dataSet = new PieDataSet(pieEntries,"Letters "+document.get("email").toString()+" uploaded.");
                             dataSet.setSliceSpace(3);
                             dataSet.setValueTextSize(12);
                             //Adding colors(if needed more colors, add here)
