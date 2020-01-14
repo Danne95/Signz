@@ -203,9 +203,14 @@ public class SupporterActivity extends AppCompatActivity {
                                     db.collection("userstats").document("letterscounter").update(c, count);
                                     UpdatePersonalCounter();
                                     UploadPicture(path, count, document);
-
-                                    tts.speak("The picture will be reexamined by an admin.", TextToSpeech.QUEUE_FLUSH, null);//reads
-                                    Toast.makeText(getApplicationContext(), "The picture will be reexamined by an admin.", Toast.LENGTH_LONG).show();
+                                    if(toApprove) {
+                                        tts.speak("The picture will be reexamined by an admin.", TextToSpeech.QUEUE_FLUSH, null);//reads
+                                        Toast.makeText(getApplicationContext(), "The picture will be reexamined by an admin.", Toast.LENGTH_LONG).show();
+                                    }
+                                    else{
+                                        tts.speak("The picture was uploaded successfully.", TextToSpeech.QUEUE_FLUSH, null);//reads
+                                        Toast.makeText(getApplicationContext(), "The picture was uploaded successfully.", Toast.LENGTH_LONG).show();
+                                    }
                                 }
                             }
                         }
